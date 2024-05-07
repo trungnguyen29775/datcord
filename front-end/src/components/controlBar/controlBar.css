@@ -1,0 +1,10 @@
+.control-bar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: var(--main-dark-color);
+    width: 240px;
+    margin-left: 72px;
+}

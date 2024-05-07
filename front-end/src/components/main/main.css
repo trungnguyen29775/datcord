@@ -1,0 +1,27 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--main-light-color);
+    flex: 1;
+}
+
+.main-content-container {
+    flex: 1;
+    margin-top: 48px;
+}
+.main-right-bar {
+    width: 240px;
+    border: 0px;
+    border-left: 1px solid rgba(78, 80, 88, 0.48);
+    margin-top: 48px;
+}
+
+.main-header-nav-bar-container {
+    width: 100%;
+    position: fixed;
+    top: 0;
+
+    height: 48px;
+    z-index: 2;
+    box-shadow: rgba(2, 2, 2, 0.2) 0px 1px 0px 0px;
+}
