@@ -10,6 +10,7 @@ import { RiMore2Fill } from 'react-icons/ri';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
+    const [homeFriendNavStatus, setHomeNavStatus] = useState('online');
 
     const handleChangeSearchInput = (event) => {
         setSearchInput(event.target.value);

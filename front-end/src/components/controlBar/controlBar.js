@@ -3,6 +3,9 @@ import { FaUsers } from 'react-icons/fa';
 import { FaStore } from 'react-icons/fa';
 import { MdFamilyRestroom } from 'react-icons/md';
 import { FaPlus } from 'react-icons/fa';
+import { RiSettings5Fill } from 'react-icons/ri';
+
+import { FaMicrophone, FaMicrophoneSlash, FaHeadphones } from 'react-icons/fa';
 const ControlBar = function () {
     return (
         <div className="control-bar-container">
@@ -33,6 +36,34 @@ const ControlBar = function () {
                         <img src="/image/cat.jpg" className="avt-user" />
                     </div>
                     <span>Stupid Cat</span>
+                </div>
+            </div>
+            {/* User control */}
+            <div className="control-bar__footer">
+                <div className="home-control-bar-item footer">
+                    <div className="avt-user-container">
+                        <img src="/image/cat.jpg" className="avt-user" />
+                    </div>
+                    <div className="name-status-user-container">
+                        <span className="footer-user-name">Stupid Cat</span>
+                        <span className="footer-user-status">Offline</span>
+                    </div>
+                </div>
+                <div className="control-bar-footer-icon-container">
+                    <div className="control-bar-footer-icon add-label">
+                        <FaMicrophone style={{ fontSize: '18px' }} />
+                        <span className="hover-label top">Turn off Microphone</span>
+                    </div>
+                    {/* <FaMicrophoneSlash  /> */}
+
+                    <div className="control-bar-footer-icon add-label">
+                        <FaHeadphones style={{ fontSize: '18px' }} />
+                        <span className="hover-label top">Deafen</span>
+                    </div>
+                    <div className="control-bar-footer-icon add-label">
+                        <RiSettings5Fill style={{ fontSize: '18px' }} />
+                        <span className="hover-label top">Setting</span>
+                    </div>
                 </div>
             </div>
         </div>
