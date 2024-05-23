@@ -1,0 +1,151 @@
+.background {
+    background-image: url(/public/logInBG.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.login {
+    display: flex;
+    height: 385px;
+    padding: 30px;
+    background-color: hsl(223 calc(1 * 6.7%) 20.6% / 1);
+    width: 724px;
+    padding: 32px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 184px;
+    margin-left: 328px;
+}
+.turn_back {
+    color: rgb(219, 222, 225);
+    display: flex;
+    font-size: 20px;
+}
+.return_text {
+    margin-top: 0px;
+    font-size: 16px;
+}
+.arrow_icon {
+    display: flex;
+    justify-content: center;
+    color: rgb(219, 222, 225);
+}
+.login_container {
+    width: 452px;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80px;
+}
+
+h2 {
+    color: rgb(242, 243, 245);
+}
+h4 {
+    color: rgb(181, 186, 193);
+    transform: translateY(-27px);
+    font-size: 14px;
+}
+
+.login_field {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: rgb(181, 186, 193);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+input {
+    width: 400px;
+    height: 38px;
+    background-color: var(--main-darker-color);
+    border: none;
+    margin-top: 10px;
+    color: var(--font-header-color);
+}
+.icon {
+    color: red;
+    height: 11px;
+    width: 17px;
+}
+.forget_password {
+    color: rgb(0, 168, 252);
+    text-decoration: none;
+    transform: translateY(-15px);
+    font-weight: bold;
+    font-size: 12px;
+}
+button {
+    background-color: var(--blue-light);
+    border: none;
+    color: var(--font-header-color);
+    width: 400px;
+    height: 45px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: -10px;
+}
+p {
+    color: rgb(181, 186, 193);
+    font-size: 12px;
+}
+span {
+    display: flex;
+    flex-direction: row;
+}
+
+.register {
+    color: rgb(0, 168, 252);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 10px;
+    margin-top: 14px;
+}
+
+.qr {
+    padding: 5px;
+    /* background-color: aliceblue; */
+    background-image: url(/public/qr-discord.png);
+    background-size: cover;
+    height: 200px;
+    width: 200px;
+    border-radius: 5px;
+    margin-left: 33px;
+    margin-top: 60px;
+}
+
+/* .qr-cover {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: aliceblue;
+} */
+
+.discord {
+    color: black;
+}
+
+/* .qr_sign_in {
+    width: 180px;
+    height: 312px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
+
+.qr_text {
+    margin-left: 13px;
+}
+.script {
+    text-align: center;
+}
