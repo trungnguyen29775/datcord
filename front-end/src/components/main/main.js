@@ -5,13 +5,20 @@ import { BiSolidInbox } from 'react-icons/bi';
 import { MdHelp } from 'react-icons/md';
 import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import NoContentImage from '../../constant/noContentImage';
+import StateContext from '../../context/context';
+import { changeToDirectedMessageMode } from '../../context/action';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
     const [homeFriendNavStatus, setHomeNavStatus] = useState('online');
+    const [state, dispatch] = useContext(StateContext);
+
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
 
     const handleChangeSearchInput = (event) => {
         setSearchInput(event.target.value);
@@ -22,6 +29,10 @@ const Main = function () {
         currentActive.classList.remove('active');
         event.target.classList.add('active');
         setHomeNavStatus(event.target.textContent.toLowerCase());
+    };
+
+    const handleChangeToDirectedMessageMode = (event) => {
+        dispatch(changeToDirectedMessageMode(event));
     };
 
     return (
@@ -100,7 +111,11 @@ const Main = function () {
                         return (
                             // Online friend
 
-                            <div key={index} className="main-home-content-item-container">
+                            <div
+                                key={index}
+                                className="main-home-content-item-container"
+                                onClick={(e) => handleChangeToDirectedMessageMode(e)}
+                            >
                                 <div className="home-control-bar-item main">
                                     <div className="flex--row">
                                         <div className="avt-user-container">
