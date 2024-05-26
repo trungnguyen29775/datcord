@@ -138,10 +138,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: var(--main-light-color);
-    width: 100%;
     box-sizing: border-box;
     color: var(--font-color);
     position: relative;
+    flex: 1;
 }
 
 .channel-header {
@@ -172,15 +172,46 @@
 }
 .chat-bar {
     display: flex;
-    padding: 12px;
+    margin: 12px;
+    box-sizing: border-box;
+    background-color: var(--light-background-color);
+    height: 52px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+    color: var(--font-color);
 }
 .chat-bar-input {
     flex: 1;
-    margin: 12px;
-}
-.chat-bar-input input {
+    background-color: var(--main-light-color);
+    border: 0px;
+    height: 100%;
     width: 100%;
+    background-color: var(--light-background-color);
+    color: var(--font-color);
+    font-size: 15px;
 }
+
+.chat-bar-input:focus {
+    outline: none;
+}
+
+.chat-bar__button {
+    background-color: var(--light-background-color);
+    border: 0px;
+    color: var(--font-color);
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+}
+
+.chat-bar__button:hover {
+    cursor: pointer;
+    background-color: var(--main-light-color);
+}
+
 .member-info {
     width: 250px;
     background-color: var(--main-dark-color);

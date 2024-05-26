@@ -54,7 +54,6 @@ const ControlBar = function () {
                         <FaMicrophone style={{ fontSize: '18px' }} />
                         <span className="hover-label top">Turn off Microphone</span>
                     </div>
-                    {/* <FaMicrophoneSlash  /> */}
 
                     <div className="control-bar-footer-icon add-label">
                         <FaHeadphones style={{ fontSize: '18px' }} />
