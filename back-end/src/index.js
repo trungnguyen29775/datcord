@@ -12,7 +12,7 @@ const httpServer = createServer(app);
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// db.sequelize.sync({ alter: true });
+db.sequelize.sync({ alter: true });
 
 const io = new Server(httpServer, {
     cors: {

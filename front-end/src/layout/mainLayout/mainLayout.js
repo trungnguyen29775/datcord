@@ -30,10 +30,12 @@ const MainLayout = function () {
     return (
         <div className="main-layout-wrapper">
             <LeftSideNavBar />
-            {/* <ControlBar />
-            <Main /> */}
-            <ChannelNav />
+            <ControlBar />
+            <Main />
+            {/*
+                 <ChannelNav />
             <Channel />
+                */}
         </div>
     );
 };
