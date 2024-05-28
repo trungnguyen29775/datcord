@@ -21,18 +21,19 @@ function LogIn() {
                                 <label forHTML="email">EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
                                 <CgAsterisk className="icon" /> <br />
                             </div>
-                            <input className="email" type="text" id="email" name="email"></input> <br />
+                            <input className="email" type="text" id="email" name="email" />
                             <div>
                                 <label forHTML="password">MẬT KHẨU</label>
                                 <CgAsterisk className="icon" />
                             </div>
-                            <input className="password" type="text" id="password" name="password"></input> <br />
+                            <input className="password" type="text" id="password" name="password" />
                             <a className="forget_password" href="#">
                                 Quên mật khẩu?
                             </a>
-                            <br />
-                            <button type="button">Đăng nhập</button>
-                            <span>
+                            <button type="button" className="login__button">
+                                Đăng nhập
+                            </button>
+                            <span className="need-acc-container">
                                 <p>Cần một tài khoản?</p>
                                 <a className="register" href="#">
                                     Đăng ký

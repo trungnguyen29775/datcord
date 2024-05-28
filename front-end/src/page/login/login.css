@@ -3,30 +3,31 @@
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
-    margin: 0;
     display: flex;
     overflow: hidden;
+    align-items: center;
+    width: 100vw;
+    color: white;
 }
 
 .login {
     display: flex;
-    height: 385px;
-    padding: 30px;
     background-color: hsl(223 calc(1 * 6.7%) 20.6% / 1);
-    width: 724px;
     padding: 32px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 184px;
-    margin-left: 328px;
+    margin: auto;
+    flex-direction: row;
 }
 .turn_back {
     color: rgb(219, 222, 225);
     display: flex;
     font-size: 20px;
+    align-items: center;
+    flex-direction: row;
 }
 .return_text {
-    margin-top: 0px;
+    margin: 0px;
     font-size: 16px;
 }
 .arrow_icon {
@@ -42,13 +43,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 80px;
 }
 
-h2 {
+.header h2 {
     color: rgb(242, 243, 245);
 }
-h4 {
+.header h4 {
     color: rgb(181, 186, 193);
     transform: translateY(-27px);
     font-size: 14px;
@@ -59,13 +59,13 @@ h4 {
     flex-direction: column;
 }
 
-label {
+.login_field label {
     color: rgb(181, 186, 193);
     font-size: 12px;
     font-weight: bold;
 }
 
-input {
+.login_field input {
     width: 400px;
     height: 38px;
     background-color: var(--main-darker-color);
@@ -85,7 +85,7 @@ input {
     font-weight: bold;
     font-size: 12px;
 }
-button {
+.login__button {
     background-color: var(--blue-light);
     border: none;
     color: var(--font-header-color);
@@ -93,13 +93,13 @@ button {
     height: 45px;
     font-size: 15px;
     font-weight: bold;
-    margin-top: -10px;
+    border-radius: 8px;
 }
-p {
+.need-acc-container p {
     color: rgb(181, 186, 193);
     font-size: 12px;
 }
-span {
+.need-acc-container span {
     display: flex;
     flex-direction: row;
 }
@@ -135,17 +135,16 @@ span {
     color: black;
 }
 
-/* .qr_sign_in {
-    width: 180px;
-    height: 312px;
+.qr_sign_in {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-} */
+    align-items: center;
+}
 
 .qr_text {
     margin-left: 13px;
 }
 .script {
     text-align: center;
+    width: 100%;
 }
