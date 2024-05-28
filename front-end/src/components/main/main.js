@@ -7,15 +7,14 @@ import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import { useContext, useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
-import NoContentImage from '../../constant/noContentImage';
 import StateContext from '../../context/context';
 import { changeToDirectedMessageMode } from '../../context/action';
+import { NoContentImage } from '../../constant/component.constant';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
     const [homeFriendNavStatus, setHomeNavStatus] = useState('online');
-    const [state, dispatch] = useContext(StateContext);
-
+    const [state, dispatchState] = useContext(StateContext);
     useEffect(() => {
         console.log(state);
     }, [state]);
@@ -32,7 +31,7 @@ const Main = function () {
     };
 
     const handleChangeToDirectedMessageMode = (event) => {
-        dispatch(changeToDirectedMessageMode(event));
+        dispatchState(changeToDirectedMessageMode(event));
     };
 
     return (

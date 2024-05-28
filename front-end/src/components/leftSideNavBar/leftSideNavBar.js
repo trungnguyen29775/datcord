@@ -1,9 +1,9 @@
-import { Logo } from '../../constant/logo';
 import './leftSideNavBar.css';
 import { FiPlus } from 'react-icons/fi';
 import { MdExplore } from 'react-icons/md';
 import { IoMdDownload } from 'react-icons/io';
 import { useState } from 'react';
+import { Logo } from '../../constant/component.constant';
 const LeftSideNavBar = function () {
     const [navState, setNavState] = useState('home');
 

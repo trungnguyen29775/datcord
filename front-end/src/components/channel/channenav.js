@@ -6,11 +6,15 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 
 import { FaMicrophone, FaMicrophoneSlash, FaHeadphones } from 'react-icons/fa';
+import { useContext } from 'react';
+import StateContext from '../../context/context';
 const ChannelNav = function () {
+    const [state, dispatchState] = useContext(StateContext);
+
     //TODO API server
     return (
         <div className="control-bar-container">
-            <div className="server-header">Server Name</div>
+            <div className="server-header">{state.chatData.nameSever}</div>
 
             <div className="text-channel">
                 <div className="text-channel-header">
@@ -18,10 +22,12 @@ const ChannelNav = function () {
                     <IoIosArrowForward style={{ fontSize: '12px' }} />
                     <span>Text Channel</span>
                 </div>
-                <div className="text-channel-item">
-                    <BsChatLeftText style={{ fontSize: '12px' }} />
-                    <span>Channel 1</span>
-                </div>
+                {state.chatData.chatChannelList?.map((channel, index) => (
+                    <div className="text-channel-item" key={index}>
+                        <BsChatLeftText style={{ fontSize: '12px' }} />
+                        <span>{channel.channelName}</span>
+                    </div>
+                ))}
             </div>
             <div className="voice-channel">
                 <div className="voice-channel-header">
@@ -29,10 +35,13 @@ const ChannelNav = function () {
                     <IoIosArrowForward style={{ fontSize: '12px' }} />
                     <span>voice Channel</span>
                 </div>
-                <div className="voice-channel-item">
-                    <MdOutlineSpatialAudioOff style={{ fontSize: '12px' }} />
-                    <span>Channel 2</span>
-                </div>
+
+                {state.chatData.voiceChannel?.map((channel, index) => (
+                    <div className="voice-channel-item" key={index}>
+                        <MdOutlineSpatialAudioOff style={{ fontSize: '12px' }} />
+                        <span>{channel.voiceChannelName}</span>
+                    </div>
+                ))}
             </div>
             {/* User control */}
             <div className="control-bar__footer">
