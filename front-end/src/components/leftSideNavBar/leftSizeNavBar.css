@@ -1,8 +1,0 @@
-.left-size-nav-bar-container {
-    display: flex;
-    height: 100%;
-    background-color: var(--main-darker-color);
-    width: 72px;
-    position: fixed;
-    left: 0;
-}
