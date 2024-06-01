@@ -6,6 +6,7 @@
     margin: 0;
     display: flex;
     overflow: hidden;
+    align-items: center;
 }
 .container {
     display: flex;
@@ -16,8 +17,7 @@
     padding: 32px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    margin-left: 481px;
+    margin: auto;
 }
 .register-form {
     display: flex;
@@ -62,6 +62,8 @@
     color: var(--font-header-color);
     padding-left: 10px;
     font-size: 15px;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .required {
@@ -86,8 +88,7 @@
 .checkbox-container {
     display: flex;
     align-items: center;
-    margin-bottom: -9px;
-    transform: translateY(-18px);
+    margin-bottom: 20px;
 }
 
 /* .checkbox-container input {
