@@ -6,27 +6,37 @@ function Register() {
         <div>
             <div className="background">
                 <div className="container">
-                    <form>
-                        <h2>Create an account</h2>
-                        <div>
-                            <label forHTML="email">EMAIL</label>
+                    <form className="register">
+                        <h2 className="create">Create an account</h2>
+                        <div className="e">
+                            <label className="label-email" forHTML="email">
+                                EMAIL
+                            </label>
                             <CgAsterisk className="icon" />
                         </div>
                         <input className="email" type="text" id="email" name="email" require></input>
-                        <label forHTML="display-name">DISPLAY NAME</label>
+                        <label className="label-display" forHTML="display-name">
+                            DISPLAY NAME
+                        </label>
                         <input className="display-name" type="text" id="display-name" name="display-name"></input>
-                        <div>
-                            <label forHTML="u-name">USERNAME</label>
+                        <div className="n">
+                            <label className="label-name" forHTML="u-name">
+                                USERNAME
+                            </label>
                             <CgAsterisk className="icon" />
                         </div>
                         <input className="u-name" type="text" id="u-name" name="u-name" require></input>
-                        <div>
-                            <label forHTML="password">PASSWORD</label>
+                        <div className="p">
+                            <label className="label-pass" forHTML="password">
+                                PASSWORD
+                            </label>
                             <CgAsterisk className="icon" />
                         </div>
                         <input className="password" type="text" id="password" name="password" require></input>
-                        <div>
-                            <label forHTML="dob">DATE OF BIRTH</label>
+                        <div className="d">
+                            <label className="label-dob" forHTML="dob">
+                                DATE OF BIRTH
+                            </label>
                             <CgAsterisk className="icon" />
                         </div>
 
@@ -76,13 +86,13 @@ function Register() {
                             </select>
                         </div>
                         <div class="checkbox-container">
-                            <input type="checkbox" id="email-opt-in" name="email-opt-in" />
-                            <label for="email-opt-in">
+                            <input className="check-box" type="checkbox" id="email-opt-in" name="email-opt-in" />
+                            <label className="checkbox-label" for="email-opt-in">
                                 (Optional) It’s okay to send me emails with Discord updates, tips and special offers.
                                 You can opt out at any time.
                             </label>
                         </div>
-                        <button type="submit" class="continue-button">
+                        <button type="submit" className="continue-button">
                             Continue
                         </button>
                         <p class="terms">

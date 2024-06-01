@@ -16,23 +16,52 @@
     padding: 32px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 70px;
+    margin-top: 20px;
     margin-left: 481px;
 }
-h2 {
-    width: 400px;
-    text-align: center;
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--font-header-color);
 }
-
-.form-label {
-    font-size: 14px;
+.create {
+    width: auto;
+    text-align: center;
+    height: 17px;
+    margin-top: -8px;
+    font-size: 22px;
+    color: var(--font-header-color);
+}
+.e,
+.n,
+.p,
+.d {
+    display: flex;
+}
+.label-name,
+.label-email,
+.label-display,
+.label-pass,
+.label-dob {
+    font-size: 12px;
     color: #b9bbbe;
     margin-bottom: 16px;
     display: block;
 }
 
-input {
-    margin-bottom: 20px;
+.u-name,
+.password,
+.display-name,
+.email {
+    margin-bottom: 13px;
+    height: 37px;
+    margin-top: -12px;
+    background-color: var(--main-darker-color);
+    border: none;
+    color: var(--font-header-color);
+    padding-left: 10px;
+    font-size: 15px;
 }
 
 .required {
@@ -66,7 +95,7 @@ input {
     margin-left: -77px;
 } */
 
-.checkbox-container label {
+.checkbox-label {
     color: #b9bbbe;
     font-size: 10px;
 }
@@ -92,6 +121,7 @@ input {
     width: 100%;
     cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .continue-button:hover {
