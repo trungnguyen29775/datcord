@@ -5,9 +5,8 @@ module.exports = (sequelize, Sequelize) => {
         'friendship',
         {
             friendship_id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 primaryKey: true,
-                autoIncreasement: true,
             },
         },
         {

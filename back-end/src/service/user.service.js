@@ -12,23 +12,22 @@ exports.login = async (req, res) => {
             const responseData = {
                 name: checkName.name,
                 username: checkName.username,
-                userId: checkName.user_id,
-                avtFilePath: checkName.avt_file_path,
+                dob: checkName.dob,
             };
-            res.status(200).send(responseData);
+            res.send({ ...responseData, status: 'succeed' });
         }
     } else {
         res.status(500).send("User name doesn't exist.");
     }
 };
 
-exports.signup = async (req, res) => {
+exports.register = async (req, res) => {
     try {
         const newUser = {
-            name: req.body.name,
-            username: req.body.username,
+            username: req.body.email,
             password: req.body.password,
-            user_id: req.body.userId,
+            name: req.body.name,
+            dob: req.body.day + '/' + req.body.month + '/' + req.body.year,
         };
 
         const checkName = await User.findOne({ where: { username: newUser.username } });
@@ -39,6 +38,8 @@ exports.signup = async (req, res) => {
             const responseData = {
                 name: newUser.name,
                 username: newUser.username,
+                status: 'succeed',
+                dob: newUser.dob,
             };
             res.send(responseData);
         }

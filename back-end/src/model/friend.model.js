@@ -5,16 +5,15 @@ module.exports = (sequelize, Sequelize) => {
         'friend',
         {
             friend_id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 primaryKey: true,
-                autoIncreasement: true,
             },
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            user_id: {
-                type: DataTypes.INTEGER,
+            receiver: {
+                type: DataTypes.STRING,
                 allowNull: false,
             },
         },

@@ -27,13 +27,21 @@ io.on('connection', (socket) => {
         socket.on('send-message', ({ targetUser, message, sender }) => {
             socket.join(targetUser);
             console.log('Join room ', targetUser, ' send message: ', message);
-            socket.to(targetUser).emit('recieve-message', { sender: sender, message: message });
+            socket.to(targetUser).emit('recieved-message', { sender: sender, message: message });
+            socket.leave(targetUser);
+        });
+
+        socket.on('send-friend-request', ({ targetUser, sender }) => {
+            socket.join(targetUser);
+            console.log('Join room ', targetUser, ' send friend request: ', sender);
+            socket.to(targetUser).emit('recieved-friend-request', { sender: sender });
             socket.leave(targetUser);
         });
     });
 });
 
 require('./controller/user.controller')(app);
+require('./controller/friend.controller')(app);
 
 httpServer.listen(port, () => {
     console.log('Listen on port ', port);

@@ -10,6 +10,8 @@ import { RiMore2Fill } from 'react-icons/ri';
 import StateContext from '../../context/context';
 import { changeToDirectedMessageMode } from '../../context/action';
 import { NoContentImage } from '../../constant/component.constant';
+import { socket } from '../../socket';
+import instance from '../../axios';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
@@ -18,6 +20,21 @@ const Main = function () {
     useEffect(() => {
         console.log(state);
     }, [state]);
+
+    const handelSendFriendRequest = (event) => {
+        const targetUsername = document.querySelector('.home-add-friend__input').value;
+        instance
+            .post('/add-friend', { usernameSender: state.userData.username, usernameReceiver: targetUsername })
+            .then((res) => {
+                if (res.status === 200) {
+                    socket.emit('send-friend-request', { targetUser: targetUsername, sender: state.userData.username });
+                    console.log(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const handleChangeSearchInput = (event) => {
         setSearchInput(event.target.value);
@@ -217,7 +234,7 @@ const Main = function () {
                                     placeholder="You can add friends with their Discord username"
                                     className="home-add-friend__input"
                                 />
-                                <button>Send Friend Request</button>
+                                <button onClick={(e) => handelSendFriendRequest(e)}>Send Friend Request</button>
                             </div>
                         </div>
                         <div className="seperate-bar--horizontal"></div>

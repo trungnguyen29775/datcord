@@ -20,11 +20,11 @@ db.channel = require('./channel.model')(sequelize, Sequelize);
 
 // Friendship
 db.friendship.belongsTo(db.user, {
-    foreignKey: 'user_id',
+    foreignKey: 'sender',
 });
 
 db.user.hasMany(db.friendship, {
-    foreignKey: 'user_id',
+    foreignKey: 'sender',
 });
 
 // Message
@@ -37,29 +37,29 @@ db.channel.hasMany(db.message, {
 });
 // User Sever
 db.userSever.belongsTo(db.user, {
-    foreignKey: 'user_id',
+    foreignKey: 'username',
 });
 
 db.user.hasMany(db.userSever, {
-    foreignKey: 'user_id',
+    foreignKey: 'username',
 });
 // Sever
 
-db.sever.belongsTo(db.userSever, {
-    foreignKey: 'user_sever_id',
+db.sever.hasMany(db.userSever, {
+    foreignKey: 'sever_id',
 });
 
-db.userSever.hasMany(db.sever, {
-    foreignKey: 'user_sever_id',
+db.userSever.belongsTo(db.sever, {
+    foreignKey: 'sever_id',
 });
 
 // Friend
-db.friend.belongsTo(db.friendship, {
-    foreignKey: 'friendship_id',
+db.friendship.belongsTo(db.friend, {
+    foreignKey: 'friend_id',
 });
 
-db.friendship.hasMany(db.friend, {
-    foreignKey: 'friendship_id',
+db.friend.hasMany(db.friendship, {
+    foreignKey: 'friend_id',
 });
 // channel
 db.channel.belongsTo(db.sever, {

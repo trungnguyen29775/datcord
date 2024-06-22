@@ -5,9 +5,8 @@ module.exports = (sequelize, Sequelize) => {
         'message',
         {
             message_id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 primaryKey: true,
-                autoIncreasement: true,
             },
             sender: {
                 type: DataTypes.STRING,

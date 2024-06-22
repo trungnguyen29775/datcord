@@ -26,6 +26,12 @@
     align-items: center;
     flex-direction: row;
 }
+
+.turn_back:hover {
+    cursor: pointer;
+    color: white;
+}
+
 .return_text {
     margin: 0px;
     font-size: 16px;
@@ -81,9 +87,9 @@
 .forget_password {
     color: rgb(0, 168, 252);
     text-decoration: none;
-    transform: translateY(-15px);
     font-weight: bold;
     font-size: 12px;
+    margin-bottom: 20px;
 }
 .login__button {
     background-color: var(--blue-light);
@@ -94,6 +100,11 @@
     font-size: 15px;
     font-weight: bold;
     border-radius: 8px;
+}
+
+.login__button:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }
 .need-acc-container p {
     color: rgb(181, 186, 193);

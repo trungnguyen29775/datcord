@@ -1,8 +1,14 @@
-import { CHANGE_TO_DIRECTED_MESSAGE_MODE, RECEIVE_MESSAGE, SEND_MESSAGE } from './constant';
+import {
+    USER_LOGGED_IN,
+    CHANGE_TO_DIRECTED_MESSAGE_MODE,
+    RECEIVE_MESSAGE,
+    SEND_MESSAGE,
+    GET_DATA_USER,
+} from './constant';
 
 export const initState = {
-    login: true,
-    userData: { username: '1', userId: '2' },
+    login: false,
+    userData: {},
     directedMessArray: [],
     mode: {
         type: 'home',
@@ -84,6 +90,25 @@ const reducer = (state, action) => {
                 },
             };
         }
+
+        case USER_LOGGED_IN: {
+            return {
+                ...state,
+                login: true,
+                userData: { username: action.payload.username, name: action.payload.name, dob: action.payload.dob },
+            };
+        }
+
+        case GET_DATA_USER: {
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    ...action.payload,
+                },
+            };
+        }
+
         default: {
             console.log('Hello');
             return state;
