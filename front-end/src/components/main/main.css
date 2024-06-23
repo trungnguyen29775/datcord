@@ -4,6 +4,12 @@
     background-color: var(--main-light-color);
     flex: 1;
     color: var(--icon-color);
+    padding-left: 312px;
+}
+
+.tippy-tooltip.dark-theme {
+    background-color: black;
+    color: white;
 }
 
 .main-content-container {
@@ -64,10 +70,11 @@
 }
 
 span.nav-bar-item {
-    height: auto;
-    width: auto;
     padding: 2px 8px;
     border-radius: 5px;
+    padding: 3px 10px;
+    padding-bottom: 6px;
+    height: auto;
 }
 
 span.nav-bar-item:hover {
@@ -284,6 +291,15 @@ span.nav-bar-item:hover {
     justify-content: space-between;
     height: 60px;
     align-items: center;
+    margin-bottom: 5px;
+}
+
+.home-add-friend-header__search.succeed {
+    border: 1px solid var(--green-light-color);
+}
+
+.home-add-friend-header__search.fail {
+    border: 1px solid var(--red-color);
 }
 
 .home-add-friend-header__search input {
@@ -326,4 +342,14 @@ span.nav-bar-item:hover {
 .no-content-container {
     display: flex;
     align-items: center;
+}
+.send-friend-request-notify {
+    display: flex;
+    color: var(--green-light-color);
+    font-weight: 500;
+}
+.send-friend-request-notify.red {
+    display: flex;
+    color: var(--red-color);
+    font-weight: 500;
 }

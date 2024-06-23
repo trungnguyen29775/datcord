@@ -9,7 +9,7 @@
     margin-left: 72px;
     box-sizing: border-box;
     color: var(--font-color);
-    position: relative;
+    position: fixed;
 }
 
 .control-bar-header {

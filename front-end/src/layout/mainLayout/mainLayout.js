@@ -8,6 +8,7 @@ import './mainLayout.css';
 import { socket } from '../../socket';
 import StateContext from '../../context/context';
 import instance from '../../axios';
+import { getDataUser } from '../../context/action';
 
 const MainLayout = function () {
     const [state, dispatchState] = useContext(StateContext);
@@ -20,15 +21,15 @@ const MainLayout = function () {
                 .post('/get-friend-data', { username: state.userData.username })
                 .then((res) => {
                     console.log(res.data);
+                    if (res.status === 200) dispatchState(getDataUser(res.data));
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         }
-    }, [state]);
+    }, [state.login]);
 
     useEffect(() => {
-        console.log('hello');
         if (state.login) {
             socket.on('recieved-message', (data) => {
                 console.log(data);

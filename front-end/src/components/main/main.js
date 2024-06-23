@@ -12,11 +12,16 @@ import { changeToDirectedMessageMode } from '../../context/action';
 import { NoContentImage } from '../../constant/component.constant';
 import { socket } from '../../socket';
 import instance from '../../axios';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import { FaCheck } from 'react-icons/fa6';
+import { RxCross2 } from 'react-icons/rx';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
     const [homeFriendNavStatus, setHomeNavStatus] = useState('online');
     const [state, dispatchState] = useContext(StateContext);
+    const [sendFriendRequestStatus, setSendFriendRequestStatus] = useState('');
     useEffect(() => {
         console.log(state);
     }, [state]);
@@ -26,14 +31,23 @@ const Main = function () {
         instance
             .post('/add-friend', { usernameSender: state.userData.username, usernameReceiver: targetUsername })
             .then((res) => {
+                console.log(res.status);
                 if (res.status === 200) {
+                    setSendFriendRequestStatus('succeed');
+                    document.querySelector('.home-add-friend__input').value = '';
                     socket.emit('send-friend-request', { targetUser: targetUsername, sender: state.userData.username });
                     console.log(res.data);
+                } else if (res.status === 201) {
+                    setSendFriendRequestStatus('fail');
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
+    };
+
+    const handleTest = (event) => {
+        socket.emit('send-friend-request', { targetUser: '2', sender: state.userData.username });
     };
 
     const handleChangeSearchInput = (event) => {
@@ -51,6 +65,9 @@ const Main = function () {
         dispatchState(changeToDirectedMessageMode(event));
     };
 
+    tippy('[data-tippy-content]', {
+        arrow: true,
+    });
     return (
         <div className="main-container">
             <div className="main-header-nav-bar-container">
@@ -80,15 +97,17 @@ const Main = function () {
                     </span>
                 </div>
                 <div className="nav-bar-item-container">
-                    <div className="nav-bar-item add-label">
-                        <IoChatbubbleEllipsesSharp style={{ fontSize: '25px' }} aria-label="New group DM" />
-                        <span className="hover-label">New group DM</span>
+                    <div className="nav-bar-item add-label" onClick={(e) => handleTest(e)}>
+                        <IoChatbubbleEllipsesSharp
+                            data-tippy-content="New group DM"
+                            style={{ fontSize: '25px' }}
+                            aria-label="New group DM"
+                        />
                     </div>
                     <div className="seperate-bar--straight"></div>
 
                     <div className="nav-bar-item last add-label">
-                        <BiSolidInbox style={{ fontSize: '25px' }} />
-                        <span className="hover-label">Inbox</span>
+                        <BiSolidInbox data-tippy-content="Inbox" style={{ fontSize: '25px' }} />
                     </div>
 
                     <div className="nav-bar-item last add-label">
@@ -119,101 +138,148 @@ const Main = function () {
                 )}
 
                 {/* Content Home */}
-                <span className="main-home-content-item-container__header">
-                    {homeFriendNavStatus === 'online' ? 'Online -1' : ''}
-                </span>
-                {homeFriendNavStatus === 'online' ? (
-                    [1, 2, 3, 4].map((data, index) => {
-                        return (
-                            // Online friend
 
-                            <div
-                                key={index}
-                                className="main-home-content-item-container"
-                                onClick={(e) => handleChangeToDirectedMessageMode(e)}
-                            >
-                                <div className="home-control-bar-item main">
-                                    <div className="flex--row">
-                                        <div className="avt-user-container">
-                                            <img src="/image/cat.jpg" className="avt-user" />
+                {homeFriendNavStatus === 'online' ? (
+                    <>
+                        <span className="main-home-content-item-container__header">Online -1</span>
+                        {[1, 2, 3, 4].map((data, index) => {
+                            return (
+                                // Online friend
+                                <div
+                                    key={index}
+                                    className="main-home-content-item-container"
+                                    onClick={(e) => handleChangeToDirectedMessageMode(e)}
+                                >
+                                    <div className="home-control-bar-item main">
+                                        <div className="flex--row">
+                                            <div className="avt-user-container">
+                                                <img src="/image/cat.jpg" className="avt-user" />
+                                            </div>
+                                            <div className="name-status-user-container">
+                                                <span>Stupid Cat</span>
+                                                <span className="status">Offline</span>
+                                            </div>
                                         </div>
-                                        <div className="name-status-user-container">
-                                            <span>Stupid Cat</span>
-                                            <span className="status">Offline</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex--row">
-                                        <div className="icon-container--circle add-label">
-                                            <IoChatbubbleEllipsesSharp style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">Message</span>
-                                        </div>
-                                        <div className="icon-container--circle add-label">
-                                            <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">More</span>
+                                        <div className="flex--row">
+                                            <div
+                                                data-tippy-content="Message"
+                                                className="icon-container--circle add-label"
+                                            >
+                                                <IoChatbubbleEllipsesSharp
+                                                    style={{ fontSize: '20px', margin: 'auto' }}
+                                                />
+                                            </div>
+                                            <div data-tippy-content="More" className="icon-container--circle add-label">
+                                                <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })
+                            );
+                        })}
+                    </>
                 ) : homeFriendNavStatus === 'all' ? (
-                    [1, 2, 1, 3, 5, 1, 2].map((data, index) => {
-                        return (
-                            // All friend
-                            <div key={index} className="main-home-content-item-container">
-                                <div className="home-control-bar-item main">
-                                    <div className="flex--row">
-                                        <div className="avt-user-container">
-                                            <img src="/image/cat.jpg" className="avt-user" />
+                    <>
+                        <span className="main-home-content-item-container__header">
+                            ALL FRIENDS - {state.userData.friend?.length}
+                        </span>
+
+                        {state.userData?.friend?.map((data, index) => {
+                            return (
+                                // All friend
+                                <div key={index} className="main-home-content-item-container">
+                                    <div className="home-control-bar-item main">
+                                        <div className="flex--row">
+                                            <div className="avt-user-container">
+                                                <img src="/image/cat.jpg" className="avt-user" />
+                                            </div>
+                                            <div className="name-status-user-container">
+                                                <span>{data.name}</span>
+                                                <span className="status">Offline</span>
+                                            </div>
                                         </div>
-                                        <div className="name-status-user-container">
-                                            <span>Stupid Cat</span>
-                                            <span className="status">Offline</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex--row">
-                                        <div className="icon-container--circle add-label">
-                                            <IoChatbubbleEllipsesSharp style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">Message</span>
-                                        </div>
-                                        <div className="icon-container--circle add-label">
-                                            <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">More</span>
+                                        <div className="flex--row">
+                                            <div
+                                                data-tippy-content="Message"
+                                                className="icon-container--circle add-label"
+                                            >
+                                                <IoChatbubbleEllipsesSharp
+                                                    style={{ fontSize: '20px', margin: 'auto' }}
+                                                />
+                                            </div>
+                                            <div data-tippy-content="More" className="icon-container--circle add-label">
+                                                <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })
+                            );
+                        })}
+                    </>
                 ) : homeFriendNavStatus === 'pending' ? (
-                    [1, 2, 3, 4, 5].map((data, index) => {
-                        return (
-                            // Pending friend request
-                            <div key={index} className="main-home-content-item-container">
-                                <div className="home-control-bar-item main">
-                                    <div className="flex--row">
-                                        <div className="avt-user-container">
-                                            <img src="/image/cat.jpg" className="avt-user" />
+                    <>
+                        <span className="main-home-content-item-container__header">
+                            PENDING - {state.userData.requestReceive?.length + state.userData.requestSend?.length}
+                        </span>
+                        {state.userData.requestReceive?.map((data, index) => {
+                            return (
+                                // Pending friend request
+                                <div key={index} className="main-home-content-item-container">
+                                    <div className="home-control-bar-item main">
+                                        <div className="flex--row">
+                                            <div className="avt-user-container">
+                                                <img src="/image/cat.jpg" className="avt-user" />
+                                            </div>
+                                            <div className="name-status-user-container">
+                                                <span>{data.name}</span>
+                                                <span className="status">Incoming Friend Request</span>
+                                            </div>
                                         </div>
-                                        <div className="name-status-user-container">
-                                            <span>Stupid Cat</span>
-                                            <span className="status">Offline</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex--row">
-                                        <div className="icon-container--circle add-label">
-                                            <IoChatbubbleEllipsesSharp style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">Message</span>
-                                        </div>
-                                        <div className="icon-container--circle add-label">
-                                            <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
-                                            <span className="hover-label">More</span>
+                                        <div className="flex--row">
+                                            <div
+                                                data-tippy-content="Accept"
+                                                className="icon-container--circle add-label"
+                                            >
+                                                <FaCheck style={{ fontSize: '20px', margin: 'auto' }} />
+                                            </div>
+                                            <div
+                                                data-tippy-content="Ignore"
+                                                className="icon-container--circle add-label"
+                                            >
+                                                <RxCross2 style={{ fontSize: '20px', margin: 'auto' }} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })
+                            );
+                        })}
+                        {state.userData.requestSend?.map((data, index) => {
+                            return (
+                                // Pending friend request
+                                <div key={index} className="main-home-content-item-container">
+                                    <div className="home-control-bar-item main">
+                                        <div className="flex--row">
+                                            <div className="avt-user-container">
+                                                <img src="/image/cat.jpg" className="avt-user" />
+                                            </div>
+                                            <div className="name-status-user-container">
+                                                <span>{data.name}</span>
+                                                <span className="status">Outgoing Friend Request</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex--row">
+                                            <div
+                                                data-tippy-content="Cancel"
+                                                className="icon-container--circle add-label"
+                                            >
+                                                <RxCross2 style={{ fontSize: '20px', margin: 'auto' }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </>
                 ) : homeFriendNavStatus === 'blocked' ? (
                     [1].map((data, index) => {
                         return (
@@ -229,13 +295,28 @@ const Main = function () {
                         <div className="home-add-friend-header">
                             <h3>ADD FRIEND</h3>
                             <span>You can add friends with their Discord username</span>
-                            <div className="home-add-friend-header__search">
+                            <div
+                                className={
+                                    sendFriendRequestStatus === 'succeed'
+                                        ? 'home-add-friend-header__search succeed'
+                                        : sendFriendRequestStatus === 'fail'
+                                        ? 'home-add-friend-header__search fail'
+                                        : 'home-add-friend-header__search'
+                                }
+                            >
                                 <input
                                     placeholder="You can add friends with their Discord username"
                                     className="home-add-friend__input"
                                 />
                                 <button onClick={(e) => handelSendFriendRequest(e)}>Send Friend Request</button>
                             </div>
+                            {sendFriendRequestStatus === 'succeed' ? (
+                                <span className="send-friend-request-notify">Success! Your request was sent </span>
+                            ) : sendFriendRequestStatus === 'fail' ? (
+                                <span className="send-friend-request-notify red">Something went wrong </span>
+                            ) : (
+                                ''
+                            )}
                         </div>
                         <div className="seperate-bar--horizontal"></div>
                         <div className="no-content-container">

@@ -4,9 +4,11 @@ import { FaStore } from 'react-icons/fa';
 import { MdFamilyRestroom } from 'react-icons/md';
 import { FaPlus } from 'react-icons/fa';
 import { RiSettings5Fill } from 'react-icons/ri';
-
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
 import { FaMicrophone, FaMicrophoneSlash, FaHeadphones } from 'react-icons/fa';
 const ControlBar = function () {
+    tippy('[data-tippy-content]');
     return (
         <div className="control-bar-container">
             <div className="control-bar-header">
@@ -50,18 +52,15 @@ const ControlBar = function () {
                     </div>
                 </div>
                 <div className="control-bar-footer-icon-container">
-                    <div className="control-bar-footer-icon add-label">
+                    <div data-tippy-content="Turn off Microphone" className="control-bar-footer-icon add-label">
                         <FaMicrophone style={{ fontSize: '18px' }} />
-                        <span className="hover-label top">Turn off Microphone</span>
                     </div>
 
-                    <div className="control-bar-footer-icon add-label">
+                    <div data-tippy-content="Deafen" className="control-bar-footer-icon add-label">
                         <FaHeadphones style={{ fontSize: '18px' }} />
-                        <span className="hover-label top">Deafen</span>
                     </div>
-                    <div className="control-bar-footer-icon add-label">
+                    <div data-tippy-content="Setting" className="control-bar-footer-icon add-label">
                         <RiSettings5Fill style={{ fontSize: '18px' }} />
-                        <span className="hover-label top">Setting</span>
                     </div>
                 </div>
             </div>

@@ -6,26 +6,35 @@ const { Op, where } = require('sequelize');
 
 exports.create = async (req, res) => {
     try {
-        const newFriend = {
-            friend_id: `friend${req.body.usernameSender}${req.body.usernameReceiver}`,
-            status: 'friend',
-            receiver: req.body.usernameReceiver,
-        };
-        let responseData = {};
-
-        await Friend.create(newFriend).then((result) => {
-            const newFriendship = {
-                friendship_id: `friendship${req.body.usernameSender}${req.body.usernameReceiver}`,
-                sender: req.body.usernameSender,
-                friend_id: result.friend_id,
-            };
-            Friendship.create(newFriendship).then((data) => {
-                responseData = {
-                    ...newFriend,
-                    ...newFriendship,
+        return User.findOne({
+            where: {
+                username: req.body.usernameReceiver,
+            },
+        }).then(async (result) => {
+            if (!result) res.status(201).send('User not found');
+            else {
+                const newFriend = {
+                    friend_id: `friend${req.body.usernameSender}${req.body.usernameReceiver}`,
+                    status: 'pending',
+                    receiver: req.body.usernameReceiver,
                 };
-                res.status(200).send(responseData);
-            });
+                let responseData = {};
+
+                await Friend.create(newFriend).then((result) => {
+                    const newFriendship = {
+                        friendship_id: `friendship${req.body.usernameSender}${req.body.usernameReceiver}`,
+                        sender: req.body.usernameSender,
+                        friend_id: result.friend_id,
+                    };
+                    Friendship.create(newFriendship).then((data) => {
+                        responseData = {
+                            ...newFriend,
+                            ...newFriendship,
+                        };
+                        res.status(200).send(responseData);
+                    });
+                });
+            }
         });
     } catch (err) {
         res.status(500).send(`Error due to ${err}`);
@@ -104,6 +113,7 @@ exports.retrieve = async (req, res) => {
                                 if (item.status === 'pending') friendIdReceiver.push(item.friend_id);
                                 else if (item.status === 'friend') friendIdFriend.push(item.friend_id);
                             });
+
                             return Friendship.findAll({
                                 where: {
                                     friend_id: {
@@ -114,6 +124,7 @@ exports.retrieve = async (req, res) => {
                                 .then((result) => {
                                     const senderUsernames = [];
                                     result.map((item) => senderUsernames.push(item.sender));
+
                                     return User.findAll({
                                         where: {
                                             username: {
@@ -132,7 +143,8 @@ exports.retrieve = async (req, res) => {
                                             dob: item.dob,
                                         }),
                                     );
-                                    responseData.requestReceiver = responseDataTemp;
+
+                                    responseData.requestReceive = responseDataTemp;
                                     return Friendship.findAll({
                                         where: {
                                             friend_id: {
@@ -158,7 +170,7 @@ exports.retrieve = async (req, res) => {
                                                 }),
                                             );
                                             responseData.friend = [...responseData.friend, ...responseDataTemp];
-                                            res.send(responseData);
+                                            res.status(200).send(responseData);
                                         });
                                     });
                                 });
