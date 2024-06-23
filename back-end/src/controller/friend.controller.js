@@ -4,6 +4,6 @@ module.exports = (app) => {
 
     router.post('/add-friend', friendService.create);
     router.post('/get-friend-data', friendService.retrieve);
-
+    router.post('/accept-friend-request', friendService.update);
     app.use('/', router);
 };

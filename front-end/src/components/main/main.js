@@ -16,6 +16,7 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { FaCheck } from 'react-icons/fa6';
 import { RxCross2 } from 'react-icons/rx';
+import { ACCEPT_FRIEND } from '../../constant/endPointAPI';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
@@ -46,6 +47,16 @@ const Main = function () {
             });
     };
 
+    const handleAcceptFriend = (e, payload) => {
+        const targetUsername = payload.username;
+        instance
+            .post(ACCEPT_FRIEND, { targetUsername, currentUsername: state.userData.username })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => console.log(err));
+    };
+
     const handleTest = (event) => {
         socket.emit('send-friend-request', { targetUser: '2', sender: state.userData.username });
     };
@@ -64,6 +75,8 @@ const Main = function () {
     const handleChangeToDirectedMessageMode = (event) => {
         dispatchState(changeToDirectedMessageMode(event));
     };
+
+    const handleRejectFriend = (e) => {};
 
     tippy('[data-tippy-content]', {
         arrow: true,
@@ -237,12 +250,14 @@ const Main = function () {
                                         </div>
                                         <div className="flex--row">
                                             <div
+                                                onClick={(e) => handleAcceptFriend(e, data)}
                                                 data-tippy-content="Accept"
                                                 className="icon-container--circle add-label"
                                             >
                                                 <FaCheck style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>
                                             <div
+                                                onClick={(e) => handleRejectFriend(e)}
                                                 data-tippy-content="Ignore"
                                                 className="icon-container--circle add-label"
                                             >

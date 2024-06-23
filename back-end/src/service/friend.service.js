@@ -183,3 +183,29 @@ exports.retrieve = async (req, res) => {
         res.status(500).send(`Error due to ${err}`);
     }
 };
+
+exports.update = async (req, res) => {
+    try {
+        Friend.update(
+            {
+                friend_id: `friend${req.body.targetUsername}${req.body.currentUsername}`,
+                status: 'friend',
+                receiver: `${req.body.currentUsername}`,
+            },
+            {
+                where: {
+                    friend_id: `friend${req.body.targetUsername}${req.body.currentUsername}`,
+                },
+            },
+        ).then(() => {
+            res.status(200).send('Add Friend Succeed');
+        });
+    } catch (err) {
+        res.status(500).send(`Error due to ${err}`);
+    }
+};
+
+exports.update = async (req, res) => {
+    try {
+    } catch {}
+};
