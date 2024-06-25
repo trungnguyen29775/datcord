@@ -180,6 +180,7 @@ span.nav-bar-item:hover {
     background-color: var(--main-dark-color);
     margin-left: 10px;
     color: var(--icon-color);
+    position: relative;
 }
 .icon-container--circle:hover {
     color: white;
@@ -352,4 +353,47 @@ span.nav-bar-item:hover {
     display: flex;
     color: var(--red-color);
     font-weight: 500;
+}
+.user-more__dropdown {
+    display: none;
+    position: absolute;
+    height: 104px;
+    width: 180px;
+    background-color: black;
+    z-index: 2;
+    left: -160px;
+    bottom: -104px;
+    border-radius: 5px;
+    flex-direction: column;
+    color: var(--font-color);
+}
+
+.user-hide-dropdown .user-more__dropdown {
+    display: none;
+}
+
+.user-show-dropdown .user-more__dropdown {
+    display: flex;
+}
+
+.dropdown-item {
+    flex: 1;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+.dropdown-item:hover {
+    cursor: pointer;
+    background-color: var(--blue-light);
+    color: white;
+}
+.danger {
+    color: var(--red-color);
+}
+.danger:hover {
+    background-color: var(--red-color);
+    color: white;
+    cursor: pointer;
 }

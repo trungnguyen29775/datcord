@@ -73,7 +73,8 @@ const Main = function () {
     };
 
     const handleChangeToDirectedMessageMode = (event) => {
-        dispatchState(changeToDirectedMessageMode(event));
+        event.stopPropagation();
+        // dispatchState(changeToDirectedMessageMode(event));
     };
 
     const handleRejectFriend = (e) => {};
@@ -81,6 +82,28 @@ const Main = function () {
     tippy('[data-tippy-content]', {
         arrow: true,
     });
+
+    const handleShow = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const target = event.target.closest('.user-hide-dropdown');
+        target?.classList?.remove('user-hide-dropdown');
+        target?.classList?.add('user-show-dropdown');
+        console.log(target);
+    };
+
+    const handelHide = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        const target = event.target.closest('.user-more__dropdown');
+        const fatherNode = target.closest('.user-show-dropdown');
+        document.addEventListener('click', function (event) {
+            fatherNode?.classList.remove('user-show-dropdown');
+            fatherNode?.classList.add('user-hide-dropdown');
+        });
+    };
+
     return (
         <div className="main-container">
             <div className="main-header-nav-bar-container">
@@ -109,7 +132,7 @@ const Main = function () {
                         Add Friend
                     </span>
                 </div>
-                <div className="nav-bar-item-container">
+                <div onCl className="nav-bar-item-container">
                     <div className="nav-bar-item add-label" onClick={(e) => handleTest(e)}>
                         <IoChatbubbleEllipsesSharp
                             data-tippy-content="New group DM"
@@ -220,7 +243,19 @@ const Main = function () {
                                                     style={{ fontSize: '20px', margin: 'auto' }}
                                                 />
                                             </div>
-                                            <div data-tippy-content="More" className="icon-container--circle add-label">
+                                            <div
+                                                onClick={(e) => handleShow(e)}
+                                                data-tippy-content="More"
+                                                className="icon-container--circle user-hide-dropdown"
+                                            >
+                                                <div
+                                                    onMouseLeave={(e) => handelHide(e)}
+                                                    className="user-more__dropdown"
+                                                >
+                                                    <div className="dropdown-item">Start a video call</div>
+                                                    <div className="dropdown-item">Start a voice call</div>
+                                                    <div className="dropdown-item danger">Remove friend</div>
+                                                </div>
                                                 <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>
                                         </div>
