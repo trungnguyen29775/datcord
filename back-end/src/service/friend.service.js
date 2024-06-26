@@ -50,14 +50,17 @@ exports.retrieve = async (req, res) => {
         const friendIdFriend = [];
         const friendIdReceiver = [];
         const responseData = {};
-
+        let globalFriendId = [];
         return Friendship.findAll({
             where: {
                 sender: username,
             },
         }).then((result) => {
             const friendIds = [];
-            result?.map((item) => friendIds.push(item.friend_id));
+            result?.map((item) => {
+                friendIds.push(item.friend_id);
+                globalFriendId.push(item.friend_id);
+            });
             return Friend.findAll({
                 where: {
                     friend_id: {
@@ -77,16 +80,17 @@ exports.retrieve = async (req, res) => {
                     },
                 }).then((result) => {
                     const responseDataTemp = [];
-                    result.map((item) =>
+                    result.map((item, index) =>
                         responseDataTemp.push({
                             username: item.username,
                             avtFilePath: item.avt_file_path,
                             name: item.name,
                             dob: item.dob,
+                            friendId: globalFriendId[index],
                         }),
                     );
+                    for (let i = 0; i < responseDataTemp.length; i++) globalFriendId.shift();
                     responseData.requestSend = responseDataTemp;
-
                     return User.findAll({
                         where: {
                             username: {
@@ -101,6 +105,7 @@ exports.retrieve = async (req, res) => {
                                 avtFilePath: item.avt_file_path,
                                 name: item.name,
                                 dob: item.dob,
+                                friendId: globalFriendId[index],
                             }),
                         );
                         responseData.friend = responseDataTemp;
@@ -110,8 +115,13 @@ exports.retrieve = async (req, res) => {
                             },
                         }).then((result) => {
                             result.map((item) => {
-                                if (item.status === 'pending') friendIdReceiver.push(item.friend_id);
-                                else if (item.status === 'friend') friendIdFriend.push(item.friend_id);
+                                if (item.status === 'pending') {
+                                    friendIdReceiver.push(item.friend_id);
+                                    globalFriendId.push(item.friend_id);
+                                } else if (item.status === 'friend') {
+                                    friendIdFriend.push(item.friend_id);
+                                    globalFriendId.push(item.friend_id);
+                                }
                             });
 
                             return Friendship.findAll({
@@ -135,15 +145,16 @@ exports.retrieve = async (req, res) => {
                                 })
                                 .then((result) => {
                                     const responseDataTemp = [];
-                                    result.map((item) =>
+                                    result.map((item, index) =>
                                         responseDataTemp.push({
                                             username: item.username,
                                             avtFilePath: item.avt_file_path,
                                             name: item.name,
                                             dob: item.dob,
+                                            friendId: globalFriendId[index],
                                         }),
                                     );
-
+                                    for (let i = 0; i < responseDataTemp.length; i++) globalFriendId.shift();
                                     responseData.requestReceive = responseDataTemp;
                                     return Friendship.findAll({
                                         where: {
@@ -161,12 +172,13 @@ exports.retrieve = async (req, res) => {
                                             },
                                         }).then((result) => {
                                             const responseDataTemp = [];
-                                            result.map((item) =>
+                                            result.map((item, index) =>
                                                 responseDataTemp.push({
                                                     username: item.username,
                                                     avtFilePath: item.avt_file_path,
                                                     name: item.name,
                                                     dob: item.dob,
+                                                    friendId: globalFriendId[index],
                                                 }),
                                             );
                                             responseData.friend = [...responseData.friend, ...responseDataTemp];
@@ -205,7 +217,30 @@ exports.update = async (req, res) => {
     }
 };
 
-exports.update = async (req, res) => {
+exports.destroy = async (req, res) => {
     try {
-    } catch {}
+        return Friendship.findOne({
+            where: {
+                friend_id: req.body.friendId,
+            },
+        }).then((result) => {
+            return Friendship.destroy({
+                where: {
+                    friendship_id: result.friendship_id,
+                },
+            })
+                .then((result) => {
+                    return Friend.destroy({
+                        where: {
+                            friend_id: req.body.friendId,
+                        },
+                    });
+                })
+                .then(() => {
+                    res.status(200).send('Delete Succeed!');
+                });
+        });
+    } catch (err) {
+        res.status(500).send(`Error due to ${err}`);
+    }
 };

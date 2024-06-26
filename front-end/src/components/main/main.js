@@ -16,7 +16,7 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { FaCheck } from 'react-icons/fa6';
 import { RxCross2 } from 'react-icons/rx';
-import { ACCEPT_FRIEND } from '../../constant/endPointAPI';
+import { ACCEPT_FRIEND, DELETE_FRIEND } from '../../constant/endPointAPI';
 
 const Main = function () {
     const [searchInput, setSearchInput] = useState('');
@@ -77,8 +77,6 @@ const Main = function () {
         // dispatchState(changeToDirectedMessageMode(event));
     };
 
-    const handleRejectFriend = (e) => {};
-
     tippy('[data-tippy-content]', {
         arrow: true,
     });
@@ -89,7 +87,6 @@ const Main = function () {
         const target = event.target.closest('.user-hide-dropdown');
         target?.classList?.remove('user-hide-dropdown');
         target?.classList?.add('user-show-dropdown');
-        console.log(target);
     };
 
     const handelHide = (event) => {
@@ -102,6 +99,23 @@ const Main = function () {
             fatherNode?.classList.remove('user-show-dropdown');
             fatherNode?.classList.add('user-hide-dropdown');
         });
+    };
+
+    const handleDeleteFriendship = (event, payload) => {
+        event.preventDefault();
+        event.stopPropagation();
+        instance
+            .post(DELETE_FRIEND, {
+                targetUsername: payload.username,
+                currentUsername: state.userData.username,
+                friendId: payload.friendId,
+            })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (
@@ -132,7 +146,7 @@ const Main = function () {
                         Add Friend
                     </span>
                 </div>
-                <div onCl className="nav-bar-item-container">
+                <div className="nav-bar-item-container">
                     <div className="nav-bar-item add-label" onClick={(e) => handleTest(e)}>
                         <IoChatbubbleEllipsesSharp
                             data-tippy-content="New group DM"
@@ -254,7 +268,12 @@ const Main = function () {
                                                 >
                                                     <div className="dropdown-item">Start a video call</div>
                                                     <div className="dropdown-item">Start a voice call</div>
-                                                    <div className="dropdown-item danger">Remove friend</div>
+                                                    <div
+                                                        className="dropdown-item danger"
+                                                        onClick={(e) => handleDeleteFriendship(e, data)}
+                                                    >
+                                                        Remove friend
+                                                    </div>
                                                 </div>
                                                 <RiMore2Fill style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>
@@ -292,7 +311,7 @@ const Main = function () {
                                                 <FaCheck style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>
                                             <div
-                                                onClick={(e) => handleRejectFriend(e)}
+                                                onClick={(e) => handleDeleteFriendship(e, data)}
                                                 data-tippy-content="Ignore"
                                                 className="icon-container--circle add-label"
                                             >
