@@ -8,7 +8,13 @@ import { IoMdClose } from 'react-icons/io';
 import { useContext, useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import StateContext from '../../context/context';
-import { changeToDirectedMessageMode } from '../../context/action';
+import {
+    addFriend,
+    changeToDirectedMessageMode,
+    removeFriend,
+    removeFriendReceive,
+    removeFriendRequest,
+} from '../../context/action';
 import { NoContentImage } from '../../constant/component.constant';
 import { socket } from '../../socket';
 import instance from '../../axios';
@@ -49,10 +55,12 @@ const Main = function () {
 
     const handleAcceptFriend = (e, payload) => {
         const targetUsername = payload.username;
+
         instance
             .post(ACCEPT_FRIEND, { targetUsername, currentUsername: state.userData.username })
             .then((res) => {
-                console.log(res.data);
+                dispatchState(addFriend(payload));
+                dispatchState(removeFriendReceive(payload));
             })
             .catch((err) => console.log(err));
     };
@@ -101,21 +109,60 @@ const Main = function () {
         });
     };
 
-    const handleDeleteFriendship = (event, payload) => {
+    const handleDeleteFriendship = (event, payload, { type }) => {
         event.preventDefault();
         event.stopPropagation();
-        instance
-            .post(DELETE_FRIEND, {
-                targetUsername: payload.username,
-                currentUsername: state.userData.username,
-                friendId: payload.friendId,
-            })
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        switch (type) {
+            case 'FRIEND': {
+                instance
+                    .post(DELETE_FRIEND, {
+                        targetUsername: payload.username,
+                        currentUsername: state.userData.username,
+                        friendId: payload.friendId,
+                    })
+                    .then((res) => {
+                        dispatchState(removeFriend(payload));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                break;
+            }
+            case 'REQUEST_RECEIVE': {
+                instance
+                    .post(DELETE_FRIEND, {
+                        targetUsername: payload.username,
+                        currentUsername: state.userData.username,
+                        friendId: payload.friendId,
+                    })
+                    .then((res) => {
+                        dispatchState(removeFriendReceive(payload));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                break;
+            }
+            case 'REQUEST_SEND': {
+                instance
+                    .post(DELETE_FRIEND, {
+                        targetUsername: payload.username,
+                        currentUsername: state.userData.username,
+                        friendId: payload.friendId,
+                    })
+                    .then((res) => {
+                        dispatchState(removeFriendRequest(payload));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                break;
+            }
+            default: {
+                console.log('Error');
+                break;
+            }
+        }
     };
 
     return (
@@ -270,7 +317,9 @@ const Main = function () {
                                                     <div className="dropdown-item">Start a voice call</div>
                                                     <div
                                                         className="dropdown-item danger"
-                                                        onClick={(e) => handleDeleteFriendship(e, data)}
+                                                        onClick={(e) =>
+                                                            handleDeleteFriendship(e, data, { type: 'FRIEND' })
+                                                        }
                                                     >
                                                         Remove friend
                                                     </div>
@@ -311,7 +360,9 @@ const Main = function () {
                                                 <FaCheck style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>
                                             <div
-                                                onClick={(e) => handleDeleteFriendship(e, data)}
+                                                onClick={(e) =>
+                                                    handleDeleteFriendship(e, data, { type: 'REQUEST_RECEIVE' })
+                                                }
                                                 data-tippy-content="Ignore"
                                                 className="icon-container--circle add-label"
                                             >
@@ -340,6 +391,9 @@ const Main = function () {
                                             <div
                                                 data-tippy-content="Cancel"
                                                 className="icon-container--circle add-label"
+                                                onClick={(e) =>
+                                                    handleDeleteFriendship(e, data, { type: 'REQUEST_SEND' })
+                                                }
                                             >
                                                 <RxCross2 style={{ fontSize: '20px', margin: 'auto' }} />
                                             </div>

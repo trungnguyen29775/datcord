@@ -4,6 +4,10 @@ import {
     RECEIVE_MESSAGE,
     SEND_MESSAGE,
     GET_DATA_USER,
+    ADD_FRIEND,
+    REMOVE_FRIEND_RECEIVE,
+    REMOVE_FRIEND_REQUEST,
+    REMOVE_FRIEND,
 } from './constant';
 
 export const initState = {
@@ -105,6 +109,67 @@ const reducer = (state, action) => {
                 userData: {
                     ...state.userData,
                     ...action.payload,
+                },
+            };
+        }
+
+        case ADD_FRIEND: {
+            console.log(action.payload);
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    friend: [...state.userData.friend, action.payload],
+                },
+            };
+        }
+
+        case REMOVE_FRIEND_RECEIVE: {
+            const targetIndex = state.userData.requestReceive?.indexOf(action.payload);
+            if (targetIndex != -1) {
+                return {
+                    ...state,
+                    userData: {
+                        ...state.userData,
+                        requestReceive: state.userData.requestReceive
+                            .slice(0, targetIndex)
+                            .concat(
+                                state.userData.requestReceive.slice(
+                                    targetIndex + 1,
+                                    state.userData.requestReceive.length,
+                                ),
+                            ),
+                    },
+                };
+            }
+        }
+
+        case REMOVE_FRIEND_REQUEST: {
+            console.log(action.payload);
+            const targetIndex = state.userData.requestSend?.indexOf(action.payload);
+
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    requestSend: state.userData.requestSend
+                        .slice(0, targetIndex)
+                        .concat(state.userData.requestSend.slice(targetIndex + 1, state.userData.requestSend.length)),
+                },
+            };
+        }
+
+        case REMOVE_FRIEND: {
+            console.log(action.payload);
+            const targetIndex = state.userData.friend?.indexOf(action.payload);
+
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    friend: state.userData.friend
+                        .slice(0, targetIndex)
+                        .concat(state.userData.friend.slice(targetIndex + 1, state.userData.friend.length)),
                 },
             };
         }
