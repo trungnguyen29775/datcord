@@ -10,6 +10,7 @@ import { RiMore2Fill } from 'react-icons/ri';
 import StateContext from '../../context/context';
 import {
     addFriend,
+    addRequestSend,
     changeToDirectedMessageMode,
     removeFriend,
     removeFriendReceive,
@@ -42,7 +43,14 @@ const Main = function () {
                 if (res.status === 200) {
                     setSendFriendRequestStatus('succeed');
                     document.querySelector('.home-add-friend__input').value = '';
-                    socket.emit('send-friend-request', { targetUser: targetUsername, sender: state.userData.username });
+                    socket.emit('send-friend-request', {
+                        targetUser: targetUsername,
+                        usernameSender: state.userData.username,
+                        nameSender: state.userData.name,
+                        avtFilePathSender: state.userData.avtFilePath ? state.userData.avtFilePath : null,
+                        friendId: res.data.friendId,
+                    });
+                    dispatchState(addRequestSend(res.data));
                     console.log(res.data);
                 } else if (res.status === 201) {
                     setSendFriendRequestStatus('fail');

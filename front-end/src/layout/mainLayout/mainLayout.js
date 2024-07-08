@@ -8,7 +8,7 @@ import './mainLayout.css';
 import { socket } from '../../socket';
 import StateContext from '../../context/context';
 import instance from '../../axios';
-import { getDataUser } from '../../context/action';
+import { addRequestReceive, getDataUser } from '../../context/action';
 
 const MainLayout = function () {
     const [state, dispatchState] = useContext(StateContext);
@@ -20,25 +20,23 @@ const MainLayout = function () {
             instance
                 .post('/get-friend-data', { username: state.userData.username })
                 .then((res) => {
-                    console.log(res.data);
                     if (res.status === 200) dispatchState(getDataUser(res.data));
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        }
-    }, [state.login]);
-
-    useEffect(() => {
-        if (state.login) {
             socket.on('recieved-message', (data) => {
                 console.log(data);
             });
             socket.on('recieved-friend-request', (data) => {
-                console.log(data);
+                dispatchState(addRequestReceive(data));
             });
+            return () => {
+                socket.off('recieved-message');
+                socket.off('recieved-friend-request');
+            };
         }
-    });
+    }, [state.login]);
 
     return (
         <div className="main-layout-wrapper">

@@ -1,5 +1,7 @@
 import {
     ADD_FRIEND,
+    ADD_REQUEST_RECEIVE,
+    ADD_REQUEST_SEND,
     CHANGE_TO_DIRECTED_MESSAGE_MODE,
     GET_DATA_USER,
     RECEIVE_MESSAGE,
@@ -69,6 +71,20 @@ export const addFriend = (payload) => {
 export const removeFriend = (payload) => {
     return {
         type: REMOVE_FRIEND,
+        payload,
+    };
+};
+
+export const addRequestSend = (payload) => {
+    return {
+        type: ADD_REQUEST_SEND,
+        payload,
+    };
+};
+
+export const addRequestReceive = (payload) => {
+    return {
+        type: ADD_REQUEST_RECEIVE,
         payload,
     };
 };

@@ -13,6 +13,12 @@ exports.create = async (req, res) => {
         }).then(async (result) => {
             if (!result) res.status(201).send('User not found');
             else {
+                const responseUserData = {
+                    username: result.username,
+                    avtFilePath: result.avt_file_path,
+                    name: result.name,
+                    dob: result.dob,
+                };
                 const newFriend = {
                     friend_id: `friend${req.body.usernameSender}${req.body.usernameReceiver}`,
                     status: 'pending',
@@ -28,8 +34,8 @@ exports.create = async (req, res) => {
                     };
                     Friendship.create(newFriendship).then((data) => {
                         responseData = {
-                            ...newFriend,
-                            ...newFriendship,
+                            friendId: newFriend.friend_id,
+                            ...responseUserData,
                         };
                         res.status(200).send(responseData);
                     });

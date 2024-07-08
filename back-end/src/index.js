@@ -31,10 +31,15 @@ io.on('connection', (socket) => {
             socket.leave(targetUser);
         });
 
-        socket.on('send-friend-request', ({ targetUser, sender }) => {
+        socket.on('send-friend-request', ({ targetUser, usernameSender, nameSender, avtFilePathSender, friendId }) => {
             socket.join(targetUser);
-            console.log('Join room ', targetUser, ' send friend request: ', sender);
-            socket.to(targetUser).emit('recieved-friend-request', { sender: sender });
+            console.log('Join room ', targetUser, ' send friend request: ', usernameSender);
+            socket.to(targetUser).emit('recieved-friend-request', {
+                usernameSender: usernameSender,
+                nameSender: nameSender,
+                avtFilePathSender: avtFilePathSender,
+                friendId: friendId,
+            });
             socket.leave(targetUser);
         });
     });

@@ -8,6 +8,8 @@ import {
     REMOVE_FRIEND_RECEIVE,
     REMOVE_FRIEND_REQUEST,
     REMOVE_FRIEND,
+    ADD_REQUEST_SEND,
+    ADD_REQUEST_RECEIVE,
 } from './constant';
 
 export const initState = {
@@ -59,7 +61,6 @@ export const initState = {
 };
 
 const reducer = (state, action) => {
-    console.log(action);
     switch (action.type) {
         case CHANGE_TO_DIRECTED_MESSAGE_MODE: {
             return {
@@ -99,7 +100,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 login: true,
-                userData: { username: action.payload.username, name: action.payload.name, dob: action.payload.dob },
+                userData: {
+                    username: action.payload.username,
+                    name: action.payload.name,
+                    dob: action.payload.dob,
+                    avtFilePath: action.payload.avt_file_path,
+                },
             };
         }
 
@@ -170,6 +176,35 @@ const reducer = (state, action) => {
                     friend: state.userData.friend
                         .slice(0, targetIndex)
                         .concat(state.userData.friend.slice(targetIndex + 1, state.userData.friend.length)),
+                },
+            };
+        }
+
+        case ADD_REQUEST_SEND: {
+            console.log(action.payload);
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    requestSend: [...state.userData.requestSend, action.payload],
+                },
+            };
+        }
+
+        case ADD_REQUEST_RECEIVE: {
+            console.log(action.payload);
+            const format = {
+                avtFilePath: action.payload.avtFilePathSender,
+                friendId: action.payload.friendId,
+                name: action.payload.nameSender,
+                username: action.payload.usernameSender,
+                dob: action.payload.dob,
+            };
+            return {
+                ...state,
+                userData: {
+                    ...state.userData,
+                    requestReceive: [...state.userData.requestReceive, format],
                 },
             };
         }

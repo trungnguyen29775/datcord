@@ -13,6 +13,7 @@ exports.login = async (req, res) => {
                 name: checkName.name,
                 username: checkName.username,
                 dob: checkName.dob,
+                avtFilePath: checkName.avt_file_path,
             };
             res.send({ ...responseData, status: 'succeed' });
         }
