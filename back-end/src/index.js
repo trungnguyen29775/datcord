@@ -61,6 +61,4 @@ io.on('connection', (socket) => {
 require('./controller/user.controller')(app);
 require('./controller/friend.controller')(app);
 
-httpServer.listen(port, () => {
-    console.log('Listen on port ', port);
-});
+httpServer.listen(port, () => {});
