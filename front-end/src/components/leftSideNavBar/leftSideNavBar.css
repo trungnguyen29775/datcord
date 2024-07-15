@@ -1,0 +1,86 @@
+.left-side-nav-bar-container {
+    display: flex;
+    height: 100%;
+    background-color: var(--main-darker-color);
+    width: 72px;
+    position: fixed;
+    left: 0;
+    padding: 15px 0px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-icon {
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 8px 0px;
+    border-radius: 50%;
+    background-color: var(--main-light-color);
+    color: var(--font-color);
+    transition: border-radius 0.3s;
+    position: relative;
+    flex-wrap: nowrap;
+}
+
+.nav-icon.active {
+    background-color: var(--blue-light);
+    border-radius: 15px;
+    color: white;
+}
+
+.left-side-active-bar {
+    width: 5px;
+    height: 48px;
+    background-color: white;
+    left: 0;
+    position: fixed;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: none;
+    transition: height 0.1s;
+}
+
+.nav-icon.active .left-side-active-bar {
+    display: flex;
+}
+
+.left-side-logo {
+    color: white;
+    margin: auto;
+}
+
+.left-side-seperate {
+    width: 50%;
+    background-color: var(--main-light-color);
+    height: 2px;
+    margin: 10px 0px;
+}
+
+.nav-icon__name {
+    margin: auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.nav-icon:hover {
+    background-color: var(--blue-light);
+    cursor: pointer;
+    color: white;
+    border-radius: 15px;
+    .left-side-active-bar {
+        display: flex;
+        height: 24px;
+    }
+}
+
+.nav-icon.sever {
+    color: var(--green-light-color);
+}
+
+.nav-icon.sever:hover {
+    background-color: var(--green-light-color);
+    color: white;
+}
