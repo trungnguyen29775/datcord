@@ -42,6 +42,19 @@ io.on('connection', (socket) => {
             });
             socket.leave(targetUser);
         });
+
+        socket.on('friendship-change', ({ targetUser, usernameSender, friendId, action, avtFilePath, name }) => {
+            socket.join(targetUser);
+            console.log('Join room ', targetUser, ' friendship changed from: ', usernameSender);
+            socket.to(targetUser).emit('receive-friendship-change', {
+                usernameSender: usernameSender,
+                friendId: friendId,
+                action,
+                avtFilePath: avtFilePath,
+                name: name,
+            });
+            socket.leave(targetUser);
+        });
     });
 });
 

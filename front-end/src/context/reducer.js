@@ -61,6 +61,8 @@ export const initState = {
 };
 
 const reducer = (state, action) => {
+    console.log(action.payload);
+    console.log(state);
     switch (action.type) {
         case CHANGE_TO_DIRECTED_MESSAGE_MODE: {
             return {
@@ -148,11 +150,14 @@ const reducer = (state, action) => {
                     },
                 };
             }
+            console.log(state.userData.requestReceive);
+
+            return state;
         }
 
         case REMOVE_FRIEND_REQUEST: {
-            console.log(action.payload);
             const targetIndex = state.userData.requestSend?.indexOf(action.payload);
+            console.log(targetIndex);
 
             return {
                 ...state,

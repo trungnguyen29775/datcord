@@ -8,7 +8,7 @@ import './mainLayout.css';
 import { socket } from '../../socket';
 import StateContext from '../../context/context';
 import instance from '../../axios';
-import { addRequestReceive, getDataUser } from '../../context/action';
+import { addFriend, addRequestReceive, getDataUser, removeFriendRequest } from '../../context/action';
 
 const MainLayout = function () {
     const [state, dispatchState] = useContext(StateContext);
@@ -31,9 +31,30 @@ const MainLayout = function () {
             socket.on('recieved-friend-request', (data) => {
                 dispatchState(addRequestReceive(data));
             });
+
+            socket.on('receive-friendship-change', (data) => {
+                console.log(data);
+                switch (data.action.name) {
+                    case 'ADD': {
+                        const format = {
+                            username: data.usernameSender,
+                            name: data.name,
+                            avtFilePath: data.avtFilePath ? data.avtFilePath : null,
+                            friendId: data.friendId,
+                        };
+                        dispatchState(addFriend(format));
+                        dispatchState(removeFriendRequest(format));
+                        break;
+                    }
+                    default: {
+                        console.log('Hi');
+                    }
+                }
+            });
             return () => {
                 socket.off('recieved-message');
                 socket.off('recieved-friend-request');
+                socket.off('receive-friendship-change');
             };
         }
     }, [state.login]);

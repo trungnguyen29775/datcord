@@ -63,12 +63,24 @@ const Main = function () {
 
     const handleAcceptFriend = (e, payload) => {
         const targetUsername = payload.username;
+        e.stopPropagation();
 
         instance
             .post(ACCEPT_FRIEND, { targetUsername, currentUsername: state.userData.username })
             .then((res) => {
                 dispatchState(addFriend(payload));
                 dispatchState(removeFriendReceive(payload));
+                socket.emit('friendship-change', {
+                    targetUser: targetUsername,
+                    usernameSender: state.userData.username,
+                    friendId: payload.friendId,
+                    name: state.userData.name,
+                    avtFilePath: state.userData.avtFilePath ? state.userData.avtFilePath : null,
+                    action: {
+                        name: 'ADD',
+                        type: 'friend',
+                    },
+                });
             })
             .catch((err) => console.log(err));
     };

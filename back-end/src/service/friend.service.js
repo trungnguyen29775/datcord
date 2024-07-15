@@ -105,7 +105,7 @@ exports.retrieve = async (req, res) => {
                         },
                     }).then((result) => {
                         const responseDataTemp = [];
-                        result.map((item) =>
+                        result.map((item, index) =>
                             responseDataTemp.push({
                                 username: item.username,
                                 avtFilePath: item.avt_file_path,
