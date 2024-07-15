@@ -11,7 +11,6 @@ import StateContext from '../../context/context';
 import {
     addFriend,
     addRequestSend,
-    changeToDirectedMessageMode,
     removeFriend,
     removeFriendReceive,
     removeFriendRequest,
@@ -142,6 +141,14 @@ const Main = function () {
                     })
                     .then((res) => {
                         dispatchState(removeFriend(payload));
+                        socket.emit('friendship-change', {
+                            targetUser: payload.username,
+                            usernameSender: state.userData.username,
+                            friendId: payload.friendId,
+                            action: 'DELETE',
+                            avtFilePath: state.userData.avtFilePath,
+                            name: 'FRIEND',
+                        });
                     })
                     .catch((err) => {
                         console.log(err);
