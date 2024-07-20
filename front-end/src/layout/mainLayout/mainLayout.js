@@ -8,7 +8,14 @@ import './mainLayout.css';
 import { socket } from '../../socket';
 import StateContext from '../../context/context';
 import instance from '../../axios';
-import { addFriend, addRequestReceive, getDataUser, removeFriendRequest } from '../../context/action';
+import {
+    addFriend,
+    addRequestReceive,
+    getDataUser,
+    removeFriend,
+    removeFriendReceive,
+    removeFriendRequest,
+} from '../../context/action';
 
 const MainLayout = function () {
     const [state, dispatchState] = useContext(StateContext);
@@ -41,9 +48,38 @@ const MainLayout = function () {
                             name: data.name,
                             avtFilePath: data.avtFilePath ? data.avtFilePath : null,
                             friendId: data.friendId,
+                            dob: data.dob,
                         };
                         dispatchState(addFriend(format));
                         dispatchState(removeFriendRequest(format));
+                        break;
+                    }
+                    case 'DELETE': {
+                        const format = {
+                            username: data.usernameSender,
+                            name: data.name,
+                            avtFilePath: data.avtFilePath ? data.avtFilePath : null,
+                            friendId: data.friendId,
+                            dob: data.dob,
+                        };
+                        switch (data.action.type) {
+                            case 'FRIEND': {
+                                dispatchState(removeFriend(format));
+                                break;
+                            }
+                            case 'REQUEST_RECEIVE': {
+                                dispatchState(removeFriendReceive(format));
+                                break;
+                            }
+                            case 'REQUEST_SEND': {
+                                dispatchState(removeFriendRequest(format));
+                                break;
+                            }
+                            default: {
+                                console.log('Hello');
+                                break;
+                            }
+                        }
                         break;
                     }
                     default: {

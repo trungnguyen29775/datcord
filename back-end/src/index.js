@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
             socket.leave(targetUser);
         });
 
-        socket.on('friendship-change', ({ targetUser, usernameSender, friendId, action, avtFilePath, name }) => {
+        socket.on('friendship-change', ({ dob, targetUser, usernameSender, friendId, action, avtFilePath, name }) => {
             socket.join(targetUser);
             console.log('Join room ', targetUser, ' friendship changed from: ', usernameSender);
             socket.to(targetUser).emit('receive-friendship-change', {
@@ -52,6 +52,7 @@ io.on('connection', (socket) => {
                 action,
                 avtFilePath: avtFilePath,
                 name: name,
+                dob: dob,
             });
             socket.leave(targetUser);
         });

@@ -122,7 +122,6 @@ const reducer = (state, action) => {
         }
 
         case ADD_FRIEND: {
-            console.log(action.payload);
             return {
                 ...state,
                 userData: {
@@ -133,7 +132,9 @@ const reducer = (state, action) => {
         }
 
         case REMOVE_FRIEND_RECEIVE: {
-            const targetIndex = state.userData.requestReceive?.indexOf(action.payload);
+            const targetIndex = state.userData.requestReceive.findIndex(
+                (request) => request.friendId === action.payload.friendId,
+            );
             if (targetIndex != -1) {
                 return {
                     ...state,
@@ -150,15 +151,14 @@ const reducer = (state, action) => {
                     },
                 };
             }
-            console.log(state.userData.requestReceive);
-
+            console.log('Cant find friend receive');
             return state;
         }
 
         case REMOVE_FRIEND_REQUEST: {
-            const targetIndex = state.userData.requestSend?.indexOf(action.payload);
-            console.log(targetIndex);
-
+            const targetIndex = state.userData.requestSend.findIndex(
+                (request) => request.friendId === action.payload.friendId,
+            );
             return {
                 ...state,
                 userData: {
@@ -171,8 +171,9 @@ const reducer = (state, action) => {
         }
 
         case REMOVE_FRIEND: {
-            console.log(action.payload);
-            const targetIndex = state.userData.friend?.indexOf(action.payload);
+            const targetIndex = state.userData.friend.findIndex(
+                (friend) => friend.friendId === action.payload.friendId,
+            );
 
             return {
                 ...state,

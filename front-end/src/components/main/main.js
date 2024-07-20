@@ -74,6 +74,7 @@ const Main = function () {
                     usernameSender: state.userData.username,
                     friendId: payload.friendId,
                     name: state.userData.name,
+                    dob: state.userData.dob,
                     avtFilePath: state.userData.avtFilePath ? state.userData.avtFilePath : null,
                     action: {
                         name: 'ADD',
@@ -145,9 +146,10 @@ const Main = function () {
                             targetUser: payload.username,
                             usernameSender: state.userData.username,
                             friendId: payload.friendId,
-                            action: 'DELETE',
+                            action: { name: 'DELETE', type: 'FRIEND' },
                             avtFilePath: state.userData.avtFilePath,
-                            name: 'FRIEND',
+                            name: state.userData.name,
+                            dob: state.userData.dob,
                         });
                     })
                     .catch((err) => {
@@ -164,6 +166,15 @@ const Main = function () {
                     })
                     .then((res) => {
                         dispatchState(removeFriendReceive(payload));
+                        socket.emit('friendship-change', {
+                            targetUser: payload.username,
+                            usernameSender: state.userData.username,
+                            friendId: payload.friendId,
+                            action: { name: 'DELETE', type: 'REQUEST_SEND' },
+                            avtFilePath: state.userData.avtFilePath,
+                            name: state.userData.name,
+                            dob: state.userData.dob,
+                        });
                     })
                     .catch((err) => {
                         console.log(err);
@@ -179,6 +190,15 @@ const Main = function () {
                     })
                     .then((res) => {
                         dispatchState(removeFriendRequest(payload));
+                        socket.emit('friendship-change', {
+                            targetUser: payload.username,
+                            usernameSender: state.userData.username,
+                            friendId: payload.friendId,
+                            action: { name: 'DELETE', type: 'REQUEST_RECEIVE' },
+                            avtFilePath: state.userData.avtFilePath,
+                            name: state.userData.name,
+                            dob: state.userData.dob,
+                        });
                     })
                     .catch((err) => {
                         console.log(err);
