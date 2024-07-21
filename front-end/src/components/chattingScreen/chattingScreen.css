@@ -1,0 +1,115 @@
+.chatting {
+    color: white;
+}
+.chatting-sever-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 75%;
+}
+
+.nav-bar-item-container.chatting {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.chatting-icon-control-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.nav-bar-item {
+    color: var(--font-color);
+}
+
+.main-content-container.chatting {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 12px;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.message-list {
+    max-height: 80%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.chat-bar {
+    display: flex;
+    box-sizing: border-box;
+    background-color: var(--light-background-color);
+    height: 52px;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 10px;
+    align-items: flex-start;
+    color: var(--font-color);
+    padding: 2px 5px;
+}
+.chat-bar-input {
+    flex: 1;
+    background-color: var(--main-light-color);
+    border: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: var(--light-background-color);
+    color: var(--font-color);
+    font-size: 15px;
+    text-align: left;
+    padding-top: 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.chat-bar-input:focus {
+    outline: none;
+}
+
+.chat-bar__button {
+    background-color: var(--light-background-color);
+    border: 0px;
+    color: var(--font-color);
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+}
+
+.chat-bar__button:hover {
+    cursor: pointer;
+    background-color: var(--main-light-color);
+}
+
+.member-info {
+    width: 250px;
+    background-color: var(--main-dark-color);
+}
+.message-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin: 10px 0px;
+    flex-direction: row;
+}
+
+.message-item.current {
+    flex-direction: row-reverse;
+}
+
+.message {
+    flex: 1;
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-item.current .message {
+    display: flex;
+    align-items: flex-end;
+}
