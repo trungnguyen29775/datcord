@@ -6,3 +6,8 @@
     height: 100vh;
     width: 100vw;
 }
+@media (max-width: 1060px) {
+    .main-right-bar.home {
+        display: none;
+    }
+}

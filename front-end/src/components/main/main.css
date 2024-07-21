@@ -70,11 +70,11 @@
 }
 
 span.nav-bar-item {
-    padding: 2px 8px;
     border-radius: 5px;
     padding: 3px 10px;
     padding-bottom: 6px;
-    height: auto;
+    height: 20px;
+    width: max-content;
 }
 
 span.nav-bar-item:hover {

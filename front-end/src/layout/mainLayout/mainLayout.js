@@ -1,6 +1,4 @@
 import { useContext, useEffect } from 'react';
-import Channel from '../../components/channel/channel';
-import ChannelNav from '../../components/channel/channenav';
 import ControlBar from '../../components/controlBar/controlBar';
 import LeftSideNavBar from '../../components/leftSideNavBar/leftSideNavBar';
 import Main from '../../components/main/main';
@@ -100,10 +98,6 @@ const MainLayout = function () {
             <LeftSideNavBar />
             <ControlBar />
             <Main />
-            {/*
-                 <ChannelNav />
-            <Channel />
-                */}
         </div>
     );
 };

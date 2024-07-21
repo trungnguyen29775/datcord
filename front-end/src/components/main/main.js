@@ -9,8 +9,10 @@ import { useContext, useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import StateContext from '../../context/context';
 import {
+    addDirectedMessage,
     addFriend,
     addRequestSend,
+    changeToDirectedMessageMode,
     removeFriend,
     removeFriendReceive,
     removeFriendRequest,
@@ -31,33 +33,40 @@ const Main = function () {
     const [sendFriendRequestStatus, setSendFriendRequestStatus] = useState('');
     useEffect(() => {
         console.log(state);
+        tippy('[data-tippy-content]', {
+            arrow: true,
+        });
     }, [state]);
 
     const handelSendFriendRequest = (event) => {
         const targetUsername = document.querySelector('.home-add-friend__input').value;
-        instance
-            .post('/add-friend', { usernameSender: state.userData.username, usernameReceiver: targetUsername })
-            .then((res) => {
-                console.log(res.status);
-                if (res.status === 200) {
-                    setSendFriendRequestStatus('succeed');
-                    document.querySelector('.home-add-friend__input').value = '';
-                    socket.emit('send-friend-request', {
-                        targetUser: targetUsername,
-                        usernameSender: state.userData.username,
-                        nameSender: state.userData.name,
-                        avtFilePathSender: state.userData.avtFilePath ? state.userData.avtFilePath : null,
-                        friendId: res.data.friendId,
-                    });
-                    dispatchState(addRequestSend(res.data));
-                    console.log(res.data);
-                } else if (res.status === 201) {
-                    setSendFriendRequestStatus('fail');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if (targetUsername === state.userData.username) {
+            setSendFriendRequestStatus('fail');
+        } else {
+            instance
+                .post('/add-friend', { usernameSender: state.userData.username, usernameReceiver: targetUsername })
+                .then((res) => {
+                    console.log(res.status);
+                    if (res.status === 200) {
+                        setSendFriendRequestStatus('succeed');
+                        document.querySelector('.home-add-friend__input').value = '';
+                        socket.emit('send-friend-request', {
+                            targetUser: targetUsername,
+                            usernameSender: state.userData.username,
+                            nameSender: state.userData.name,
+                            avtFilePathSender: state.userData.avtFilePath ? state.userData.avtFilePath : null,
+                            friendId: res.data.friendId,
+                        });
+                        dispatchState(addRequestSend(res.data));
+                        console.log(res.data);
+                    } else if (res.status === 201) {
+                        setSendFriendRequestStatus('fail');
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
 
     const handleAcceptFriend = (e, payload) => {
@@ -100,14 +109,11 @@ const Main = function () {
         setHomeNavStatus(event.target.textContent.toLowerCase());
     };
 
-    const handleChangeToDirectedMessageMode = (event) => {
+    const handleChangeToDirectedMessageMode = (event, data) => {
         event.stopPropagation();
-        // dispatchState(changeToDirectedMessageMode(event));
+        dispatchState(changeToDirectedMessageMode(data));
+        dispatchState(addDirectedMessage(data));
     };
-
-    tippy('[data-tippy-content]', {
-        arrow: true,
-    });
 
     const handleShow = (event) => {
         event.stopPropagation();
@@ -331,7 +337,11 @@ const Main = function () {
                         {state.userData?.friend?.map((data, index) => {
                             return (
                                 // All friend
-                                <div key={index} className="main-home-content-item-container">
+                                <div
+                                    key={index}
+                                    className="main-home-content-item-container"
+                                    onClick={(e) => handleChangeToDirectedMessageMode(e, data)}
+                                >
                                     <div className="home-control-bar-item main">
                                         <div className="flex--row">
                                             <div className="avt-user-container">

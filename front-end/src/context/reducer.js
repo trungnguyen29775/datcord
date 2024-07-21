@@ -10,6 +10,8 @@ import {
     REMOVE_FRIEND,
     ADD_REQUEST_SEND,
     ADD_REQUEST_RECEIVE,
+    ADD_DIRECTED_MESSAGE,
+    DELETE_DIRECTED_MESSAGE,
 } from './constant';
 
 export const initState = {
@@ -69,7 +71,7 @@ const reducer = (state, action) => {
                 ...state,
                 mode: {
                     type: 'directedMessage',
-                    data: [1],
+                    data: action.payload,
                 },
             };
         }
@@ -215,6 +217,33 @@ const reducer = (state, action) => {
             };
         }
 
+        case ADD_DIRECTED_MESSAGE: {
+            const targetIndex = state.directedMessArray.findIndex(
+                (friend) => friend.friendId === action.payload.friendId,
+            );
+            if (targetIndex === -1) {
+                return {
+                    ...state,
+                    directedMessArray: [...state.directedMessArray, action.payload],
+                };
+            }
+            return state;
+        }
+
+        case DELETE_DIRECTED_MESSAGE: {
+            const targetIndex = state.directedMessArray.findIndex(
+                (friend) => friend?.friendId === action.payload.friendId,
+            );
+            if (targetIndex !== -1) {
+                return {
+                    ...state,
+                    directedMessArray: state.directedMessArray
+                        .slice(0, targetIndex)
+                        .concat(state.directedMessArray.slice(targetIndex + 1, state.directedMessArray.length)),
+                };
+            }
+            return state;
+        }
         default: {
             console.log('Hello');
             return state;

@@ -7,8 +7,17 @@ import { RiSettings5Fill } from 'react-icons/ri';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { FaMicrophone, FaMicrophoneSlash, FaHeadphones } from 'react-icons/fa';
+import { useContext } from 'react';
+import { RxCross2 } from 'react-icons/rx';
+import StateContext from '../../context/context';
+import { deleteDirectedMessage } from '../../context/action';
 const ControlBar = function () {
     tippy('[data-tippy-content]');
+    const [state, dispatchState] = useContext(StateContext);
+    const handelDeleteDirectedItem = (event, data) => {
+        event.stopPropagation();
+        dispatchState(deleteDirectedMessage(data));
+    };
     return (
         <div className="control-bar-container">
             <div className="control-bar-header">
@@ -33,12 +42,17 @@ const ControlBar = function () {
                     <span>DIRECTED MESSAGE</span>
                     <FaPlus style={{ fontSize: '10px' }} className="pointer" />
                 </div>
-                <div className="home-control-bar-item">
-                    <div className="avt-user-container">
-                        <img src="/image/cat.jpg" className="avt-user" />
-                    </div>
-                    <span>Stupid Cat</span>
-                </div>
+                {state.directedMessArray.map((item, index) => {
+                    return (
+                        <div className="home-control-bar-item" key={index}>
+                            <div className="avt-user-container">
+                                <img src="/image/cat.jpg" className="avt-user" />
+                            </div>
+                            <span>{item.name}</span>
+                            <RxCross2 onClick={(e) => handelDeleteDirectedItem(e, item)} className="close-button" />
+                        </div>
+                    );
+                })}
             </div>
             {/* User control */}
             <div className="control-bar__footer">
