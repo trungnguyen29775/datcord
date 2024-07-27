@@ -13,6 +13,7 @@ import {
     ADD_DIRECTED_MESSAGE,
     DELETE_DIRECTED_MESSAGE,
     CHANGE_MODE,
+    ADD_MESSAGE,
 } from './constant';
 
 export const initState = {
@@ -241,6 +242,20 @@ const reducer = (state, action) => {
                 },
             };
         }
+
+        case ADD_MESSAGE: {
+            return {
+                ...state,
+                chatData: {
+                    ...state.chatData,
+                    chatChannelData: {
+                        ...state.chatData.chatChannelData,
+                        messageData: [...state.chatData.chatChannelData.messageData, action.payload],
+                    },
+                },
+            };
+        }
+
         default: {
             console.log('Hello');
             return state;

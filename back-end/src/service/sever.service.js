@@ -20,3 +20,15 @@ exports.destroy = async (severId) => {
         console.log(err);
     }
 };
+
+exports.retrive = async (severId) => {
+    try {
+        return Sever.findOne({
+            where: {
+                chat_room_id: severId,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};

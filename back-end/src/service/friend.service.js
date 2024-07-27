@@ -6,6 +6,7 @@ const { Op, where } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 const SeverService = require('./sever.service');
 const UserSeverService = require('./userSever.service');
+const ChannelService = require('./channel.service');
 
 exports.create = async (req, res) => {
     try {
@@ -246,7 +247,17 @@ exports.update = async (req, res) => {
                     };
                     return UserSeverService.create(newTargetUserSever).then(() => {
                         responseData.TargetUserSever = newCurrentUserSever;
-                        res.status(200).send(responseData);
+                        const uniqueChannelId = uuidv4();
+                        const newChannel = {
+                            channel_id: uniqueChannelId,
+                            channel_name: 'PRIVATE MESSAGE',
+                            sever_id: uniqueSeverId,
+                        };
+                        return ChannelService.create(newChannel).then(() => {
+                            responseData.channel = newChannel;
+                            console.log(responseData);
+                            res.status(200).send(responseData);
+                        });
                     });
                 });
             });
