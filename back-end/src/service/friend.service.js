@@ -3,6 +3,9 @@ const Friend = db.friend;
 const Friendship = db.friendship;
 const User = db.user;
 const { Op, where } = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
+const SeverService = require('./sever.service');
+const UserSeverService = require('./userSever.service');
 
 exports.create = async (req, res) => {
     try {
@@ -204,6 +207,8 @@ exports.retrieve = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
+        const uniqueSeverId = uuidv4();
+        const responseData = {};
         Friend.update(
             {
                 friend_id: `friend${req.body.targetUsername}${req.body.currentUsername}`,
@@ -216,7 +221,35 @@ exports.update = async (req, res) => {
                 },
             },
         ).then(() => {
-            res.status(200).send('Add Friend Succeed');
+            const newSever = {
+                chat_room_id: uniqueSeverId,
+                name: 'sever',
+                avt_file_path: 'avt',
+                room_owner: 'both',
+                type: 'PRIVATE_MESSAGE',
+            };
+            return SeverService.create(newSever).then(() => {
+                responseData.newSever = newSever;
+                const uniqueCurrentUserSeverId = uuidv4();
+                const newCurrentUserSever = {
+                    user_sever_id: uniqueCurrentUserSeverId,
+                    username: req.body.currentUsername,
+                    chat_room_id: uniqueSeverId,
+                };
+                return UserSeverService.create(newCurrentUserSever).then((result) => {
+                    responseData.currentUserSever = newCurrentUserSever;
+                    const uniqueTargetUserSeverId = uuidv4();
+                    const newTargetUserSever = {
+                        user_sever_id: uniqueTargetUserSeverId,
+                        username: req.body.targetUsername,
+                        chat_room_id: uniqueSeverId,
+                    };
+                    return UserSeverService.create(newTargetUserSever).then(() => {
+                        responseData.TargetUserSever = newCurrentUserSever;
+                        res.status(200).send(responseData);
+                    });
+                });
+            });
         });
     } catch (err) {
         res.status(500).send(`Error due to ${err}`);

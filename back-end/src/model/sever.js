@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false,
             },
             room_owner: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: true,
             },
             type: {

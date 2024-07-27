@@ -1,5 +1,5 @@
 .chatting {
-    color: white;
+    color: var(--font-header-color);
 }
 .chatting-sever-info {
     display: flex;
@@ -37,10 +37,48 @@
 }
 
 .message-list {
-    max-height: 80%;
     overflow: hidden;
     overflow-y: auto;
+    flex: 1;
+    margin-bottom: 10px;
 }
+
+.message-list::-webkit-scrollbar {
+    width: 8px;
+    height: 16px;
+}
+
+.message-list::-webkit-scrollbar-track {
+    background: #2b2d31;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+    background: #1a1b1e;
+    border-radius: 8px;
+}
+
+.message-list::-webkit-scrollbar-thumb:hover {
+    background: #0e0f11;
+}
+
+/* Firefox */
+.message-list {
+    scrollbar-width: 8px;
+    scrollbar-color: #1a1b1e;
+}
+
+.message-list::-webkit-scrollbar-button {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .chat-bar {
     display: flex;
     box-sizing: border-box;
@@ -93,7 +131,7 @@
 .message-item {
     display: flex;
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
     margin: 10px 0px;
     flex-direction: row;
 }
@@ -104,9 +142,19 @@
 
 .message {
     flex: 1;
-    padding: 0px 16px;
     display: flex;
     flex-direction: column;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--font-header-color);
+    box-sizing: border-box;
+    padding: 0px;
+    padding-right: 16px;
+}
+
+.user-message {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .message-item.current .message {

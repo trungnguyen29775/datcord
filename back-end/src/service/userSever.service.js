@@ -1,23 +1,22 @@
+const { where } = require('sequelize');
 const db = require('../model');
 const UserSever = db.userSever;
 
-exports.create = async (req, res) => {
+exports.create = async (newUserSever) => {
     try {
-        const newUserSever = {
-            username: req.body.email,
-        };
+        return UserSever.create(newUserSever);
+    } catch (err) {
+        res.status(500).send(`Error due to ${err}`);
+    }
+};
 
-        const checkName = await UserSever.findOne({ where: { username: newUser.username } });
-        if (checkName) {
-            res.send('The username already exist.');
-        } else {
-            await UserSever.create(newUserSever);
-            const responseData = {
-                username: newUser.username,
-                status: 'succeed',
-            };
-            res.send(responseData);
-        }
+exports.destroy = async (userSeverId) => {
+    try {
+        return UserSever.destroy({
+            where: {
+                user_sever_id: userSeverId,
+            },
+        });
     } catch (err) {
         res.status(500).send(`Error due to ${err}`);
     }

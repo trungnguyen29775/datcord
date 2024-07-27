@@ -10,13 +10,14 @@ import { FaMicrophone, FaMicrophoneSlash, FaHeadphones } from 'react-icons/fa';
 import { useContext } from 'react';
 import { RxCross2 } from 'react-icons/rx';
 import StateContext from '../../context/context';
-import { deleteDirectedMessage } from '../../context/action';
+import { changeMode, deleteDirectedMessage } from '../../context/action';
 const ControlBar = function () {
     tippy('[data-tippy-content]');
     const [state, dispatchState] = useContext(StateContext);
     const handelDeleteDirectedItem = (event, data) => {
         event.stopPropagation();
         dispatchState(deleteDirectedMessage(data));
+        dispatchState(changeMode(data));
     };
     return (
         <div className="control-bar-container">

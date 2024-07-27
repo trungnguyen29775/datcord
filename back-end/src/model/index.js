@@ -46,11 +46,11 @@ db.user.hasMany(db.userSever, {
 // Sever
 
 db.sever.hasMany(db.userSever, {
-    foreignKey: 'sever_id',
+    foreignKey: 'chat_room_id',
 });
 
 db.userSever.belongsTo(db.sever, {
-    foreignKey: 'sever_id',
+    foreignKey: 'chat_room_id',
 });
 
 // Friend

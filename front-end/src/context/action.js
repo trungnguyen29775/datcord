@@ -1,8 +1,10 @@
 import {
     ADD_DIRECTED_MESSAGE,
     ADD_FRIEND,
+    ADD_MESSAGE,
     ADD_REQUEST_RECEIVE,
     ADD_REQUEST_SEND,
+    CHANGE_MODE,
     CHANGE_TO_DIRECTED_MESSAGE_MODE,
     DELETE_DIRECTED_MESSAGE,
     GET_DATA_USER,
@@ -101,6 +103,20 @@ export const addDirectedMessage = (payload) => {
 export const deleteDirectedMessage = (payload) => {
     return {
         type: DELETE_DIRECTED_MESSAGE,
+        payload,
+    };
+};
+
+export const changeMode = (payload) => {
+    return {
+        type: CHANGE_MODE,
+        payload,
+    };
+};
+
+export const addMessage = (payload) => {
+    return {
+        type: ADD_MESSAGE,
         payload,
     };
 };
