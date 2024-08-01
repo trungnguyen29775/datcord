@@ -14,6 +14,7 @@ import {
     DELETE_DIRECTED_MESSAGE,
     CHANGE_MODE,
     ADD_MESSAGE,
+    CHANGE_SEVER,
 } from './constant';
 
 export const initState = {
@@ -256,6 +257,16 @@ const reducer = (state, action) => {
             };
         }
 
+        case CHANGE_SEVER: {
+            return {
+                ...state,
+                chatData: {
+                    ...state.chatData,
+                    nameSever: action.payload.nameSever,
+                    idSever: action.payload.idSever,
+                },
+            };
+        }
         default: {
             console.log('Hello');
             return state;

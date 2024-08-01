@@ -1,6 +1,7 @@
-const { where } = require('sequelize');
+const { where, Op } = require('sequelize');
 const db = require('../model');
 const Sever = db.sever;
+const UserSeverService = require('./userSever.service');
 exports.create = async (newSever) => {
     try {
         return Sever.create(newSever);

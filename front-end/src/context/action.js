@@ -5,6 +5,7 @@ import {
     ADD_REQUEST_RECEIVE,
     ADD_REQUEST_SEND,
     CHANGE_MODE,
+    CHANGE_SEVER,
     CHANGE_TO_DIRECTED_MESSAGE_MODE,
     DELETE_DIRECTED_MESSAGE,
     GET_DATA_USER,
@@ -117,6 +118,13 @@ export const changeMode = (payload) => {
 export const addMessage = (payload) => {
     return {
         type: ADD_MESSAGE,
+        payload,
+    };
+};
+
+export const changeIdSever = (payload) => {
+    return {
+        type: CHANGE_SEVER,
         payload,
     };
 };

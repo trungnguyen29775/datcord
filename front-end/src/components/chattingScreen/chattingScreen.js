@@ -23,18 +23,29 @@ const ChattingScreen = function () {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await socket.emit('send-message', { targetUser: 'hello', message: messageInput, sender: 'Thanh' });
-        const format = {
-            avtFilePath: state.userData.avtFilePath ? state.userDate.avtFilePath : '/image/cat.jpg',
-            date: '',
-            message:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-            sender: state.userData.name,
-        };
-        await dispatchState(addMessage(format));
-        const chatContainer = document.querySelector('.message-list');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        console.log(chatContainer.scrollHeight);
+        if (state.mode.type === 'directedMessage') {
+            let messageTemp = messageInput.trim();
+            if (messageTemp !== '') {
+                await socket.emit('send-message', {
+                    targetUser: state.mode.data.username,
+                    message: messageTemp,
+                    sender: state.userData.username,
+                    avtFilePath: state.userData.avtFilePath,
+                    friendId: state.mode.data.friendId,
+                    nameSender: state.userData.name,
+                });
+                const format = {
+                    avtFilePath: state.userData.avtFilePath ? state.userDate.avtFilePath : '/image/cat.jpg',
+                    date: '',
+                    message:
+                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+                    sender: state.userData.name,
+                };
+                await dispatchState(addMessage(format));
+                const chatContainer = document.querySelector('.message-list');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
     };
     const handleChangeMessageInput = (event) => {
         setMessageInput(event.target.value);

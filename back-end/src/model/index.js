@@ -13,7 +13,7 @@ db.user = require('./user.model')(sequelize, Sequelize);
 db.friend = require('./friend.model')(sequelize, Sequelize);
 db.friendship = require('./friendship.model')(sequelize, Sequelize);
 db.message = require('./message.model')(sequelize, Sequelize);
-db.sever = require('./sever')(sequelize, Sequelize);
+db.sever = require('./sever.model')(sequelize, Sequelize);
 db.userSever = require('./userSever.model')(sequelize, Sequelize);
 db.channel = require('./channel.model')(sequelize, Sequelize);
 //----------------------Relation-----------------------------

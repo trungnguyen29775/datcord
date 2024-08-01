@@ -227,7 +227,6 @@ exports.update = async (req, res) => {
                 name: 'sever',
                 avt_file_path: 'avt',
                 room_owner: 'both',
-                type: 'PRIVATE_MESSAGE',
             };
             return SeverService.create(newSever).then(() => {
                 responseData.newSever = newSever;
@@ -236,6 +235,7 @@ exports.update = async (req, res) => {
                     user_sever_id: uniqueCurrentUserSeverId,
                     username: req.body.currentUsername,
                     chat_room_id: uniqueSeverId,
+                    type: 'PRIVATE_MESSAGE',
                 };
                 return UserSeverService.create(newCurrentUserSever).then((result) => {
                     responseData.currentUserSever = newCurrentUserSever;
@@ -244,6 +244,7 @@ exports.update = async (req, res) => {
                         user_sever_id: uniqueTargetUserSeverId,
                         username: req.body.targetUsername,
                         chat_room_id: uniqueSeverId,
+                        type: 'PRIVATE_MESSAGE',
                     };
                     return UserSeverService.create(newTargetUserSever).then(() => {
                         responseData.TargetUserSever = newCurrentUserSever;
