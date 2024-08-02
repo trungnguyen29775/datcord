@@ -63,11 +63,11 @@ db.friend.hasMany(db.friendship, {
 });
 // channel
 db.channel.belongsTo(db.sever, {
-    foreignKey: 'sever_id',
+    foreignKey: 'chat_room_id',
 });
 
 db.sever.hasMany(db.channel, {
-    foreignKey: 'sever_id',
+    foreignKey: 'chat_room_id',
 });
 
 module.exports = db;

@@ -2,6 +2,8 @@ const db = require('../model');
 const Friend = db.friend;
 const Friendship = db.friendship;
 const User = db.user;
+const Sever = db.sever;
+const UserSever = db.userSever;
 const { Op, where } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 const SeverService = require('./sever.service');
@@ -192,7 +194,45 @@ exports.retrieve = async (req, res) => {
                                                 }),
                                             );
                                             responseData.friend = [...responseData.friend, ...responseDataTemp];
-                                            res.status(200).send(responseData);
+                                            return UserSeverService.findUserSeverByUsername(username).then((data) => {
+                                                const chatRoomId = [];
+                                                data.map((item) => chatRoomId.push(item.chat_room_id));
+                                                return UserSever.findAll({
+                                                    where: {
+                                                        username: { [Op.not]: username },
+                                                        type: 'PRIVATE_MESSAGE',
+                                                        chat_room_id: {
+                                                            [Op.in]: chatRoomId,
+                                                        },
+                                                    },
+                                                }).then((data) => {
+                                                    responseData.friend.map((item, index) => {
+                                                        const targetIndex = data.findIndex(
+                                                            (temp) => temp?.username === item.username,
+                                                        );
+                                                        if (targetIndex != -1) {
+                                                            const friendTemp = {
+                                                                ...responseData.friend[index],
+                                                                chatRoomId: data[targetIndex].chat_room_id,
+                                                            };
+
+                                                            responseData.friend = responseData.friend
+                                                                .slice(0, index)
+                                                                .concat(
+                                                                    responseData.friend.slice(
+                                                                        index + 1,
+                                                                        responseData.friend.length,
+                                                                    ),
+                                                                );
+                                                            console.log(responseData.friend);
+
+                                                            responseData.friend.push(friendTemp);
+                                                            console.log(responseData.friend);
+                                                        }
+                                                    });
+                                                    res.status(200).send(responseData);
+                                                });
+                                            });
                                         });
                                     });
                                 });

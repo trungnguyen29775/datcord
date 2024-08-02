@@ -113,8 +113,17 @@ const Main = function () {
 
     const handleChangeToDirectedMessageMode = (event, data) => {
         event.stopPropagation();
-        dispatchState(changeToDirectedMessageMode(data));
-        dispatchState(addDirectedMessage(data));
+        console.log(data);
+        instance
+            .post('/get-sever-data', { chatRoomId: data.chatRoomId })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        // dispatchState(changeToDirectedMessageMode(data));
+        // dispatchState(addDirectedMessage(data));
     };
 
     const handleShow = (event) => {

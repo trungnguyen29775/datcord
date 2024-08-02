@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../model');
 const Channel = db.channel;
 exports.create = async (newChannel) => {
@@ -13,6 +14,18 @@ exports.destroy = async (channelId) => {
         return Channel.destroy({
             where: {
                 channel_id: channelId,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+exports.findChannelByChatRoomId = async (chatRoomId) => {
+    try {
+        return Channel.findAll({
+            where: {
+                chat_room_id: chatRoomId,
             },
         });
     } catch (err) {

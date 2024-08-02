@@ -8,3 +8,15 @@ exports.create = async (newUserSever) => {
         res.status(500).send(`Error due to ${err}`);
     }
 };
+
+exports.findUserSeverByUsername = async (username) => {
+    try {
+        return UserSever.findAll({
+            where: {
+                username: username,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};

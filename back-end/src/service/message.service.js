@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../model');
 const Message = db.message;
 
@@ -8,8 +9,13 @@ exports.create = async (req, res) => {
     }
 };
 
-exports.retrieve = async (req, res) => {
+exports.findMessageByChannelId = async (channelId) => {
     try {
+        return Message.findAll({
+            where: {
+                channel_id: channelId,
+            },
+        });
     } catch (err) {
         console.log(err);
     }
